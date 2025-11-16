@@ -8,6 +8,18 @@ let washTimer = null;
 let startTimestamp = null;
 let endTimestamp = null;
 let totalMillis = 0;
+let washing = false;
+let paused = false;
+
+let totalSeconds = 0;
+let elapsedSeconds = 0;
+let interval = null;
+
+// Para reanudar
+let pauseTimestamp = null;
+let accumulatedPausedTime = 0;
+
+
 
 /* ============================================
    🔥 ABRIR PANTALLA DE REPOSO
@@ -35,8 +47,8 @@ function closeRestScreen() {
 function startWashProgress() {
 
     /* 1️⃣ Obtener tiempo del programa */
-    const programTime = document.getElementById("programTime").textContent;
-    const match = programTime.match(/(\d+)\s*h\s*(\d+)?/);
+    const timeString = programData[currentProgram.name].time;
+    const match = timeString.match(/(\d+)\s*h\s*(\d+)?/);
 
     const hours = parseInt(match[1]) || 0;
     const minutes = parseInt(match[2]) || 0;
@@ -48,26 +60,21 @@ function startWashProgress() {
 
     /* 3️⃣ Iniciar intervalo REAL */
     washTimer = setInterval(() => {
+
         const now = Date.now();
 
-        /* TIEMPO TRANSCURRIDO */
         const elapsed = now - startTimestamp;
-
-        /* TIEMPO RESTANTE */
         let remaining = endTimestamp - now;
         if (remaining < 0) remaining = 0;
 
-        /* Mostrar en h y min */
         elapsedText.textContent = formatTime(elapsed);
         remainingText.textContent = formatTime(remaining);
 
-        /* Barra de progreso */
         let progress = elapsed / totalMillis;
         if (progress > 1) progress = 1;
 
         restBar.style.width = (progress * 100) + "%";
 
-        /* Finalización */
         if (remaining <= 0) {
             clearInterval(washTimer);
             closeRestScreen();
@@ -77,6 +84,29 @@ function startWashProgress() {
     }, 1000);
 }
 
+
+function runTimer() {
+    const now = Date.now();
+
+    const elapsed = now - startTimestamp;
+    let remaining = endTimestamp - now;
+    if (remaining < 0) remaining = 0;
+
+    elapsedText.textContent = formatTime(elapsed);
+    remainingText.textContent = formatTime(remaining);
+
+    let progress = elapsed / totalMillis;
+    if (progress > 1) progress = 1;
+    restBar.style.width = (progress * 100) + "%";
+
+    if (remaining <= 0) {
+        clearInterval(washTimer);
+        closeRestScreen();
+        showAlert("Lavado finalizado ✔", "success");
+    }
+}
+
+
 /* ============================================
    🔥 Convertir milisegundos a "1 h 20 min"
 ============================================ */
@@ -85,24 +115,87 @@ function formatTime(ms) {
     let totalMin = Math.floor(totalSec / 60);
     let totalHrs = Math.floor(totalMin / 60);
 
-    totalMin %= 60;
+    let sec = totalSec % 60;
+    let min = totalMin % 60;
+
+    // formato para siempre mostrar 2 dígitos
+    sec = sec.toString().padStart(2, "0");
 
     if (totalHrs > 0) {
-        return `${totalHrs} h ${totalMin} min`;
+        return `${totalHrs} h ${min} min ${sec} s`;
+    } else if (min > 0) {
+        return `${min} min ${sec} s`;
     } else {
-        return `${totalMin} min`;
+        return `${sec} s`;
     }
 }
+
+function resetWashState() {
+    clearInterval(washTimer);
+
+    // 🧹 Reset de variables
+    washTimer = null;
+    startTimestamp = null;
+    endTimestamp = null;
+    totalMillis = 0;
+    paused = false;
+    pauseTimestamp = null;
+
+    // 🧼 Reset visual
+    elapsedText.textContent = "0 min";
+    remainingText.textContent = "--";
+    restBar.style.width = "0%";
+
+    // Volver botón a "Pausar"
+    const pauseBtn = document.getElementById("pauseRestBtn");
+    if (pauseBtn) pauseBtn.textContent = "⏸ Pausar";
+}
+
 
 /* ============================================
    🔥 BOTONES
 ============================================ */
 document.getElementById("pauseRestBtn").addEventListener("click", () => {
-    clearInterval(washTimer);
-    showAlert("Lavado en pausa ⏸", "success");
+
+    if (!paused) {
+        // ========================
+        //     PAUSAR
+        // ========================
+        paused = true;
+        clearInterval(washTimer);
+
+        pauseTimestamp = Date.now();
+        document.getElementById("pauseRestBtn").textContent = "▶ Reanudar";
+
+        showAlert("Lavado en pausa ⏸", "success");
+
+    } else {
+        // ========================
+        //     REANUDAR
+        // ========================
+        paused = false;
+
+        const pausedTime = Date.now() - pauseTimestamp;
+
+        // Ajustar tiempos correctamente sin reiniciar nada
+        startTimestamp += pausedTime;
+        endTimestamp += pausedTime;
+
+        document.getElementById("pauseRestBtn").textContent = "⏸ Pausar";
+
+        // ❗ IMPORTANTE: NO LLAMAR startWashProgress()
+        // Solo reactivar el intervalo
+        washTimer = setInterval(runTimer, 1000);
+
+        showAlert("Lavado reanudado ▶", "success");
+    }
 });
 
+
+ 
+
 document.getElementById("stopRestBtn").addEventListener("click", () => {
+    resetWashState();
     closeRestScreen();
     showAlert("Lavado detenido ⏹", "error");
 });
