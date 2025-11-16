@@ -50,13 +50,13 @@ const programData = {
         temp: "40ºC",
         spin: "1000"
     },
-    "Toallas": {
+    "Lavado Rápido": {
         time: "2 h 10 min",
         finish: "12:00 pm",
         temp: "70ºC",
         spin: "1500"
     },
-    "Ropa deportiva": {
+    "Centrifugar": {
         time: "1h 5 min",
         finish: "10:10 am",
         temp: "35ºC",
@@ -126,8 +126,8 @@ const programs = {
     colores: { name: "Colores", allowed: ["red", "blue", "light", "jeans"] },
     blanca: { name: "Ropa blanca", allowed: ["white"] },
     oscura: { name: "Ropa oscura", allowed: ["dark", "black", "red", "jeans"] },
-    toallas: { name: "Toallas", allowed: ["towel", "white"] },
-    deportivo: { name: "Ropa deportiva", allowed: ["sport", "light", "synthetic"] },
+    toallas: { name: "Lavado Rápido", allowed: ["towel", "white"] },
+    deportivo: { name: "Centrifugar", allowed: ["sport", "light", "synthetic"] },
     bebe: { name: "Ropa de bebé", allowed: ["delicate", "white", "baby"] }
 };
 
