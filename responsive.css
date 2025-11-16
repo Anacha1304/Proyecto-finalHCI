@@ -1,0 +1,153 @@
+/* Fuerza el layout original en pantallas grandes */
+@media (min-width: 1100px) {
+  .container {
+      flex-direction: row !important;
+      align-items: flex-start !important;
+  }
+
+  .panel {
+      width: 45% !important;
+      max-width: none !important;
+  }
+
+  .button-row {
+      flex-direction: row !important;
+  }
+
+  .dual-buttons {
+      flex-direction: row !important;
+  }
+}
+
+
+
+
+/* ============================
+    📱 RESPONSIVE — CELULARES
+   ============================ */
+
+@media (max-width: 768px) {
+
+  .title {
+    font-size: 22px;
+    margin-top: 15px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .container {
+    flex-direction: column;
+    width: 95%;
+    gap: 15px;
+  }
+
+  .panel {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .power-circle {
+    width: 140px;
+    height: 140px;
+  }
+
+  .power-icon {
+    font-size: 40px;
+  }
+
+  .info-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .label {
+    font-size: 13px;
+  }
+
+  .value {
+    font-size: 20px;
+  }
+
+  .fiducial-box {
+    width: 180px;
+    height: 180px;
+  }
+
+  .fiducial-img {
+    width: 180px;
+    height: 180px;
+  }
+
+  .button-row {
+    flex-direction: column;
+    width: 95%;
+  }
+
+  .btn {
+    font-size: 18px;
+    padding: 14px;
+  }
+
+  .dual-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .program-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ============================
+     📲 RESPONSIVE — TABLET
+   ============================ */
+
+@media (min-width: 769px) and (max-width: 1100px) {
+
+  .container {
+    width: 95%;
+    gap: 20px;
+  }
+
+  .panel {
+    width: 48%;
+  }
+
+  .power-circle {
+    width: 150px;
+    height: 150px;
+  }
+
+  .button-row {
+    width: 95%;
+  }
+
+  .program-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* ============================
+     🖥 RESPONSIVE — DESKTOP
+   ============================ */
+
+@media (min-width: 1101px) {
+  .container {
+    width: 80%;
+    max-width: 1100px;
+  }
+
+  .button-row {
+    width: 80%;
+    max-width: 1100px;
+  }
+
+  .program-grid {
+    width: 70%;
+    max-width: 850px;
+  }
+}

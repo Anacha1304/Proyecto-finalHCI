@@ -1,0 +1,176 @@
+.power-circle {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: #e6e8ec;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; /* 👉 cambia el mouse */
+  border: 4px solid #2c5d8a; /* 👉 borde del diseño */
+  box-shadow: 
+      0px 4px 10px rgba(0,0,0,0.15),
+      inset 0px 8px 16px rgba(255,255,255,0.6),
+      inset 0px -6px 12px rgba(0,0,0,0.15);
+  transition: all 0.25s ease; /* 👉 animación */
+  position: relative;
+}
+
+/* Efecto al presionar */
+.power-circle:active {
+  transform: scale(0.95);
+  box-shadow:
+      0px 2px 6px rgba(0,0,0,0.15),
+      inset 0px 4px 8px rgba(255,255,255,0.5),
+      inset 0px -4px 8px rgba(0,0,0,0.2);
+}
+
+/* Ícono refinado */
+.power-icon {
+  font-size: 60px;
+  color: #185c9b;
+  font-weight: 700;
+}
+.power-circle::before {
+  content: "";
+  width: 70px;
+  height: 4px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.8),
+    rgba(100,100,100,0.3)
+  );
+  position: absolute;
+  top: 22px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+
+/* Pantalla apagada */
+.power-off {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: black;
+  z-index: 999999 !important;   /* <- FORZADO A SER LO MÁXIMO */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* Botón grande */
+.power-big-btn {
+  font-size: 150px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  text-shadow: 0 0 25px rgba(0,170,255,0.8);
+  animation: pulseGlow 1.8s infinite ease-in-out;
+}
+
+.power-big-btn:active {
+  transform: scale(0.92);
+  filter: brightness(1.5);
+  transition: 0.1s;
+}
+
+/* Brillo respirante */
+@keyframes pulseGlow {
+  0% { text-shadow: 0 0 20px rgba(0,170,255,1); opacity: 0.8; }
+  50% { text-shadow: 0 0 60px rgba(0,170,255,1); opacity: 1; }
+  100% { text-shadow: 0 0 20px rgba(0,170,255,1); opacity: 0.8; }
+}
+
+/* Fade oscuro */
+.fade-out {
+  animation: fadeOut 0.7s forwards ease-out;
+}
+
+.fade-in {
+  animation: fadeIn 0.8s forwards ease-out;
+}
+
+/* Fade más fuerte */
+@keyframes fadeOut {
+  0% { opacity: 1; filter: brightness(1); }
+  40% { opacity: 0.7; filter: brightness(0.4); }
+  100% { opacity: 0; filter: brightness(0); }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; filter: brightness(0); }
+  60% { opacity: 0.8; filter: brightness(1.3); }
+  100% { opacity: 1; filter: brightness(1); }
+}
+
+/* Parpadeo estilo encendido electrónico */
+.blink {
+  animation: blinkAnim 0.1s alternate 6;
+}
+
+@keyframes blinkAnim {
+  from { opacity: 1; filter: brightness(1); }
+  to { opacity: 0.15; filter: brightness(0.4); }
+}
+
+/* Overlay de transición que cubre TODA la pantalla */
+.full-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: black;
+  z-index: 999998 !important;  /* justo debajo del apagado */
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+/* fade a negro */
+.fade-to-black {
+  animation: fadeBlack 0.6s forwards ease-in;
+}
+
+/* fade desde negro */
+.fade-from-black {
+  animation: fadeFromBlack 0.6s forwards ease-out;
+}
+
+@keyframes fadeBlack {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeFromBlack {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.compat-text {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    color: #333;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.compat-text.show {
+    opacity: 1;
+}
+
+.compat-text.success {
+    color: #2e7d32;  /* verde */
+}
+
+.compat-text.error {
+    color: #c62828;  /* rojo */
+}

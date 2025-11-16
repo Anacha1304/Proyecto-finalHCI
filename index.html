@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GAM Wash Pro</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="responsive.css">
+  <link rel="stylesheet" href="power.css">
+  <link rel="stylesheet" href="reposo.css">
+
+
+</head>
+
+<body>
+
+  <!-- Indicador de JS -->
+  <div id="jsIndicator" class="indicator">●</div>
+
+  <div class="header-row">
+    <div id="currentTime" class="current-time">--:--</div>
+
+    <div class="title-group">
+        <h1 class="title">GAM Wash Pro</h1>
+        <h2 class="subtitle">Sistema de Lavado Inteligente</h2>
+    </div>
+</div>
+
+
+  <div id="screen-home" class="screen active">
+   <div class="container">
+
+    <!-- PANEL PRINCIPAL -->
+    <div class="panel main">
+
+        <div class="top-row">
+            <!-- Botón circular -->
+            <div class="power-circle">
+                <div class="power-icon">⏻</div>
+            </div>
+
+            <!-- Texto de tiempo -->
+            <div class="time-block">
+                <p class="time-label">Tiempo</p>
+                <p class="time-big" id="programTime">1 h 15 min</p>
+
+                <p class="time-label small">Hora Finalización</p>
+                <p class="time-big small" id="finishTime">10:45 am</p>
+            </div>
+        </div>
+
+        <!-- Fila de Programa - Temp - Spin -->
+        <div class="info-row spaced">
+            <div class="info-block">
+                <p class="label">Programa</p>
+                <p class="value" id="programName">Delicado</p>
+            </div>
+
+            <div class="info-block">
+                <p class="label">Temperatura</p>
+                <p class="value" id="programTemp">40ºC</p>
+            </div>
+
+            <div class="info-block">
+                <p class="label">Spin</p>
+                <p class="value" id="programSpin">1200</p>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <!-- Panel del fiducial -->
+    <div class="panel fiducial">
+      <p class="fiducial-text">Coloca tu código aquí</p>
+
+      <div class="fiducial-box">
+        <img id="fiducialImg" src="" alt="" class="fiducial-img hidden">
+        <p id="fiducialPlaceholder" class="placeholder-text">Esperando código…</p>
+
+        <!-- Nuevo overlay -->
+        <div id="compatOverlay" class="compat-overlay hidden">
+            <img id="compatIcon" src="">
+        </div>
+        
+    </div>
+        <p id="compatText" class="compat-text hidden"></p>
+    </div>
+
+  </div>
+
+  <!-- Botones -->
+  <div class="button-row">
+
+    <button id="programBtn" class="btn white">
+      Programas ⚙️
+    </button>
+
+    <div id="actionButtons" style="flex:1;">
+      <button id="startBtn" class="btn blue">Iniciar lavado ▶</button>
+    </div>
+
+  </div>
+
+    <!-- Menú inferior -->
+    <div class="bottom-bar">
+
+        <button class="bottom-item active" onclick="location.href='index.html'">
+            <img src="icons/casa.png" class="icon"> <span>Inicio</span>
+        </button>
+
+        <button class="bottom-item" onclick="location.href='programas.html'">
+            <img src="icons/engranaje.png" class="icon"> <span>Programas</span>
+        </button>
+
+        <button class="bottom-item" onclick="location.href='historial.html'">
+            <img src="icons/historico.png" class="icon"> <span>Historial</span>
+        </button>
+
+    </div>
+
+
+
+
+  <!-- Aviso -->
+  <div id="alertBox" class="alert hidden">
+    <div class="alert-content">
+      <span id="alertMessage">Mensaje</span>
+    </div>
+  </div>
+</div> <!-- SCREEN 1 -->
+
+
+
+<!-- Overlay NEGRO de apagado -->
+<div id="powerOverlay" class="power-off">
+    <button id="powerReturnBtn" class="power-big-btn">⏻</button>
+</div>
+
+<!-- Overlay de transición (siempre empieza oculto) -->
+<div id="transitionOverlay" class="full-transition hidden"></div>
+
+<!-- Overlay de reposo del lavado -->
+<div id="restOverlay" class="rest-overlay hidden">
+
+    <div class="rest-box">
+
+        <!-- Progreso -->
+        <p class="rest-title">Lavado en progreso</p>
+
+        <div class="rest-time">
+            <span>Tiempo transcurrido:</span>
+            <strong id="elapsedTime">0 min</strong>
+        </div>
+
+        <div class="rest-time">
+            <span>Tiempo restante:</span>
+            <strong id="remainingTime">--</strong>
+        </div>
+
+        <!-- Barra -->
+        <div class="rest-progress">
+            <div id="restBar" class="rest-bar"></div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="rest-actions">
+            <button id="pauseRestBtn" class="btn white">⏸ Pausar</button>
+            <button id="stopRestBtn" class="btn red">⏹ Detener</button>
+        </div>
+
+    </div>
+
+</div>
+
+  <!-- JS EXTERNO -->
+  <script src="app.js"></script>
+  <script src="power.js"></script>
+  <script src="reposo.js"></script>
+
+
+
+</body>
+</html>

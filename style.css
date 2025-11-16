@@ -1,0 +1,436 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f6f8fc;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* Fila superior con hora + título */
+.header-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+
+  margin-top: 15px;
+}
+
+/* Hora */
+.current-time {
+  font-size: 25px;
+  font-weight: 600;
+  color: #18629A;
+}
+
+/* Grupo del título */
+.title-group {
+  text-align: center;
+  flex-grow: 1;
+  margin-right: 120px; /* para compensar y centrar visualmente */
+  
+}
+
+.title {
+  font-size: 26px;
+  color: #18629A;
+  font-weight: 700;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 15px;
+  margin-top: -6px;
+  color: #8aa5bd;
+}
+
+
+.container {
+  margin: 20px auto;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+  flex-wrap: nowrap;
+}
+
+
+.panel {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  width: 48%;
+  max-width: 480px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+  min-height: 320px; /* ajusta si quieres más o menos alto */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.panel.main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex;
+}
+
+.time-info {
+  margin-top: 10px;
+  color: #18629A;
+  font-size: 18px;
+}
+
+.time-big {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.time-small {
+  font-size: 16px;
+  margin-top: -6px;
+}
+
+
+.info-row {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 18px;
+}
+
+.label {
+  color: #7c8ca1;
+  font-size: 14px;
+}
+
+.value {
+  font-size: 22px;
+  color: #18629A;
+  font-weight: 600;
+}
+
+.fiducial-text {
+  color: #18629A;
+  margin-bottom: 15px;
+}
+
+.fiducial-box {
+  width: 220px;
+  height: 220px;
+  border: 3px solid #18629A;
+  border-radius: 26px;
+  position: relative;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.fiducial-img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  display: block;
+  margin: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.placeholder-text {
+  text-align: center;
+  font-size: 18px;
+  color: #7791ad;     /* azul suave */
+  margin-top: 40px;
+  font-weight: 500;
+}
+
+
+/* Botones */
+.button-row {
+  display: flex;
+  width: 90%;
+  margin: 20px auto;
+  gap: 20px;
+}
+
+.btn {
+  flex: 1;
+  padding: 16px;
+  border-radius: 14px;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.red {
+  background: #ff6b6b;
+  color: white;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+}
+
+.white {
+  background: white;
+  color: #18629A;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.12);
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+
+.blue {
+  background: #99CCF9;
+  color: #18629A;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.button-row .btn {
+  width: 100%;
+}
+
+.dual-buttons {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+}
+
+.dual-buttons .btn {
+  flex: 1;
+  width: 100%;
+}
+
+#programBtn {
+  width: auto !important;
+  flex: 0 0 49%;   /* igual que el panel */
+}
+
+
+
+/* Menú inferior */
+/* ====== NUEVO MENÚ INFERIOR BONITO ====== */
+
+.bottom-bar {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #ffffff;
+  padding: 12px 0;
+  border-top: 1px solid #d0d6e0;
+  box-shadow: 0 -4px 18px rgba(0,0,0,0.05);
+  z-index: 1000;
+}
+
+.bottom-item {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  font-size: 14px;
+  color: #7c8ca1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+
+  padding: 8px 12px;
+  border-radius: 12px;
+  margin-left: 20px;
+  margin-right: 20px;
+
+  transition: all 0.25s ease;
+
+  flex: 2;            /* 🔥 MISMA ANCHURA PARA LOS 3 */
+}
+
+/* Hover bonito */
+.bottom-item:hover {
+  background: #eef3ff;
+  color: #18629A;
+  transform: translateY(-2px);
+}
+
+/* Activo (pantalla actual) */
+.bottom-item.active {
+  background: #e9f2ff;
+  color: #18629A;
+  font-weight: 600;
+  box-shadow: 0px 3px 10px rgba(0,0,0,0.08);
+}
+
+
+.icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+
+/* --- ALERTA PROFESIONAL --- */
+
+.alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 20px 26px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  color: #333;
+  font-size: 17px;
+  font-weight: 500;
+  box-shadow: 0px 4px 18px rgba(0,0,0,0.15);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: 0.35s ease;
+  z-index: 9999;
+  max-width: 280px;
+  text-align: left;
+}
+
+.alert.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.alert.hidden {
+  display: none;
+}
+
+/* Colores para avisos */
+.alert.success {
+  border-left: 6px solid #4CAF50;
+}
+
+.alert.error {
+  border-left: 6px solid #E74C3C;
+}
+
+
+/* Indicador JS */
+.indicator {
+  position: fixed;
+  top: 8px;
+  right: 10px;
+  font-size: 20px;
+  color: red;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.program-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  width: 90%;
+  margin: 20px auto;
+}
+
+.program-card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
+  font-size: 18px;
+  color: #18629A;
+}
+
+/* 🔵 Alinea círculo + texto lado a lado */
+/* Estructura del bloque superior (círculo + tiempos) */
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Bloque de tiempos alineado a la izquierda del círculo */
+.time-block {
+  text-align: left;
+  color: #18629A;
+}
+
+.time-label {
+  font-size: 16px;
+  margin-bottom: 4px;
+  color: #6f89a3;
+}
+
+.time-label.small {
+  margin-top: 10px;
+}
+
+.time-big {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.time-big.small {
+  font-size: 26px;
+}
+
+/* Esto mantiene Programa–Temperatura–Spin abajo */
+.info-row.spaced {
+  margin-top: 10px;
+  padding-top: 5px;
+  border-top: 1px solid #e4e8f0;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+/* Overlay sobre la imagen del fiducial */
+.compat-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.compat-overlay img {
+    width: 160px;
+    height: 160px;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: all 0.35s ease;
+}
+
+.compat-overlay.show img {
+    opacity: 1;
+    transform: scale(1);
+}
