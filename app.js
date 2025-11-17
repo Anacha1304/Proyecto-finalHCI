@@ -50,14 +50,14 @@ const programData = {
         temp: "40ºC",
         spin: "1000"
     },
-    "Toallas": {
+    "Lavado Rápido": {
         time: "2 h 10 min",
         finish: "12:00 pm",
         temp: "70ºC",
         spin: "1500"
     },
-    "Ropa deportiva": {
-        time: "50 min",
+    "Centrifugar": {
+        time: "1h 5 min",
         finish: "10:10 am",
         temp: "35ºC",
         spin: "900"
@@ -126,8 +126,8 @@ const programs = {
     colores: { name: "Colores", allowed: ["red", "blue", "light", "jeans"] },
     blanca: { name: "Ropa blanca", allowed: ["white"] },
     oscura: { name: "Ropa oscura", allowed: ["dark", "black", "red", "jeans"] },
-    toallas: { name: "Toallas", allowed: ["towel", "white"] },
-    deportivo: { name: "Ropa deportiva", allowed: ["sport", "light", "synthetic"] },
+    toallas: { name: "Lavado Rápido", allowed: ["towel", "white"] },
+    deportivo: { name: "Centrifugar", allowed: ["sport", "light", "synthetic"] },
     bebe: { name: "Ropa de bebé", allowed: ["delicate", "white", "baby"] }
 };
 
@@ -151,6 +151,18 @@ const clothingNames = {
     synthetic: "Tela sintética",
     jeans: "jeans"
 };
+
+// Fiducials que cambian el programa completo
+const programFiducials = {
+    24: "bebe",        // Ropa de bebé
+    25: "delicado",    // Delicado
+    26: "colores",     // Colores
+    27: "blanca",      // Ropa blanca
+    28: "oscura",      // Oscura
+    29: "toallas",     // Toallas
+    30: "deportivo"    // Ropa deportiva
+};
+
 
 let currentProgram = programs.delicado;
 
@@ -214,6 +226,19 @@ function handleFiducial(id) {
         clearOverlay();
         hideText();
         return;
+    }
+
+    // 1️⃣ Si el fiducial corresponde a un PROGRAMA
+    if (programFiducials[id]) {
+
+        const programKey = programFiducials[id];
+        currentProgram = programs[programKey];
+
+        updateProgramUI();
+
+        showAlert(`Programa cambiado a ${currentProgram.name} vía código 🔄`, "success");
+
+        return; // <-- importante para que NO siga a la parte de ropa
     }
 
     updateFiducialImage(id);
@@ -300,33 +325,17 @@ function resetFiducialView() {
 }
 
 /* --- Botón Iniciar → Pausa / Detener --- */
-const actionButtons = document.getElementById("actionButtons");
-
-function activateStartButton() {
+// 🔥 Ahora app.js solo llama a la pantalla de reposo
+document.addEventListener("DOMContentLoaded", () => {
     const startBtn = document.getElementById("startBtn");
-
-    startBtn.addEventListener("click", () => {
-        showAlert("Lavado iniciado ✔", "success");
-        openRestScreen();
-
-
-        document.getElementById("pauseBtn").addEventListener("click", () =>
-            showAlert("Lavado en pausa ⏸", "success")
-        );
-
-        document.getElementById("stopBtn").addEventListener("click", () => {
-            showAlert("Lavado detenido ⏹", "error");
-
-            actionButtons.innerHTML = `
-                <button id="startBtn" class="btn blue">Iniciar lavado ▶</button>
-            `;
-
-            activateStartButton();
+    if (startBtn) {
+        startBtn.addEventListener("click", () => {
+            showAlert("Lavado iniciado ✔", "success");
+            openRestScreen();   // ⬅️ Esto viene de reposo.js
         });
-    });
-}
+    }
+});
 
-activateStartButton();
 
 
 /* ====================================================

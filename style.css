@@ -29,6 +29,7 @@ body {
   text-align: center;
   flex-grow: 1;
   margin-right: 120px; /* para compensar y centrar visualmente */
+  margin-bottom: 20px;
   
 }
 
@@ -41,7 +42,7 @@ body {
 
 .subtitle {
   font-size: 15px;
-  margin-top: -6px;
+  margin-top: 10px;
   color: #8aa5bd;
 }
 
@@ -346,22 +347,6 @@ body {
   display: none !important;
 }
 
-.program-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  width: 90%;
-  margin: 20px auto;
-}
-
-.program-card {
-  background: white;
-  padding: 20px;
-  border-radius: 14px;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
-  font-size: 18px;
-  color: #18629A;
-}
 
 /* 🔵 Alinea círculo + texto lado a lado */
 /* Estructura del bloque superior (círculo + tiempos) */

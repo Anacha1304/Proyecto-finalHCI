@@ -60,3 +60,13 @@
 .hidden {
     display: none !important;
 }
+
+.rest-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;  /* ⬅️ separación real entre los botones */
+}
+
+.rest-actions .btn {
+    flex: 1;
+}
