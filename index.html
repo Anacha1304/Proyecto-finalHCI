@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="responsive.css">
   <link rel="stylesheet" href="power.css">
   <link rel="stylesheet" href="reposo.css">
+  <link rel="stylesheet" href="programas.css">
+
 
 
 </head>
@@ -103,11 +105,15 @@
     </div>
 
   </div>
+  <!-- ⭐ BOTÓN FLOTANTE DEL ASISTENTE GAM ⭐ -->
+  <div id="voiceBtn" class="voice-floating-btn">
+    <span class="mic-icon">🎤</span>
+  </div>
 
     <!-- Menú inferior -->
     <div class="bottom-bar">
 
-        <button class="bottom-item active" onclick="location.href='index.html'">
+        <button class="bottom-item" onclick="goToHome()">
             <img src="icons/casa.png" class="icon"> <span>Inicio</span>
         </button>
 
@@ -129,7 +135,6 @@
     <div class="alert-content">
       <span id="alertMessage">Mensaje</span>
     </div>
-  </div>
 </div> <!-- SCREEN 1 -->
 
 
@@ -145,42 +150,80 @@
 <!-- Overlay de reposo del lavado -->
 <div id="restOverlay" class="rest-overlay hidden">
 
-    <div class="rest-box">
+    <div class="rest-card">
 
-        <!-- Progreso -->
-        <p class="rest-title">Lavado en progreso</p>
+        <!-- Círculo grande -->
+        <div class="rest-left">
 
-        <div class="rest-time">
-            <span>Tiempo transcurrido:</span>
-            <strong id="elapsedTime">0 min</strong>
+            <!-- Círculo grande para pausar/reanudar -->
+            <button id="pausePlayBtn" class="circle-btn">
+                <span id="circleIcon">⏸</span>
+            </button>
+
+            <!-- Botón pequeño: detener -->
+            <button id="smallStopBtn" class="small-stop-btn">⏹</button>
+
+            
+
         </div>
 
-        <div class="rest-time">
-            <span>Tiempo restante:</span>
-            <strong id="remainingTime">--</strong>
-        </div>
+            
 
-        <!-- Barra -->
-        <div class="rest-progress">
-            <div id="restBar" class="rest-bar"></div>
-        </div>
+        <!-- Datos de la derecha -->
+        <div class="rest-right">
 
-        <!-- Acciones -->
-        <div class="rest-actions">
-            <button id="pauseRestBtn" class="btn white">⏸ Pausar</button>
-            <button id="stopRestBtn" class="btn red">⏹ Detener</button>
-        </div>
+            <p class="rest-label">Tiempo restante</p>
+            <p class="rest-value" id="remainingTime">--</p>
 
+            <p class="rest-label">Hora Finalización</p>
+            <p class="rest-value" id="finishRestTime">--</p>
+
+            <div class="rest-info-row">
+                <div>
+                    <p class="rest-sub">Programa</p>
+                    <p class="rest-sub-value" id="programNameRest">--</p>
+                </div>
+                <div>
+                    <p class="rest-sub">Temperatura</p>
+                    <p class="rest-sub-value" id="programTempRest">--</p>
+                </div>
+                <div>
+                    <p class="rest-sub">Spin</p>
+                    <p class="rest-sub-value" id="programSpinRest">--</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="steps-container">
+        <div class="steps-line">
+            <div id="stepsProgress" class="progress-fill"></div>
+
+            <div class="step-circle"></div>
+            <div class="step-circle"></div>
+            <div class="step-circle"></div>
+            <div class="step-circle"></div>
+            <div class="step-circle"></div>
+        </div>
     </div>
 
+
+
 </div>
+
 
   <!-- JS EXTERNO -->
   <script src="app.js"></script>
   <script src="power.js"></script>
   <script src="reposo.js"></script>
-
-
+  <script type="module" src="voice.js"></script>
 
 </body>
 </html>
+<script>
+function goToHome() {
+    localStorage.setItem("returnToHome", "1");
+    location.href = "index.html";
+}
+</script>
+

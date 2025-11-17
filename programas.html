@@ -2,13 +2,16 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Programas - GAM Wash Pro</title>
 
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="responsive.css">
   <link rel="stylesheet" href="power.css">
-
+  <link rel="stylesheet" href="reposo.css">
+  <link rel="stylesheet" href="programas.css">
 </head>
+
 <body>
 
 <div class="header-row">
@@ -19,22 +22,114 @@
     </div>
 </div>
 
-<div class="program-grid">
-  <div class="program-card">Algodón</div>
-  <div class="program-card">Delicado</div>
-  <div class="program-card">Lavado Rápido</div>
-  <div class="program-card">Cuidado bebé</div>
-  <div class="program-card">Modo ECO</div>
-  <div class="program-card">Solo centrifugar</div>
+<!-- AQUI SÍ VAN LOS PROGRAMAS 👇 -->
+<div class="programs-container">
+
+    <h2 class="programs-title">Selecciona tu programa:</h2>
+
+    <div class="program-grid">
+
+        <!-- Delicado -->
+        <div class="program-card" onclick="selectProgram('Delicado')">
+            <div class="program-left">
+                <h3>Delicado</h3>
+                <p>Ciclo suave con baja fricción y temperatura para proteger telas finas.</p>
+            </div>
+            <div class="program-right">
+                <span class="time">1h 15m</span>
+                <img src="icons/lightweight.png" class="program-icon">
+            </div>
+        </div>
+
+        <!-- Colores -->
+        <div class="program-card" onclick="selectProgram('Colores')">
+            <div class="program-left">
+                <h3>Colores</h3>
+                <p>Lavado equilibrado que evita desteñidos y conserva la intensidad del color.</p>
+
+            </div>
+            <div class="program-right">
+                <span class="time">1h 30m</span>
+                <img src="icons/colores.png" class="program-icon">
+            </div>
+        </div>
+
+        <!-- Ropa blanca -->
+        <div class="program-card" onclick="selectProgram('Ropa blanca')">
+            <div class="program-left">
+                <h3>Ropa blanca</h3>
+                <p>Limpieza profunda con mayor temperatura para prendas claras y manchas difíciles.</p>
+
+            </div>
+            <div class="program-right">
+                <span class="time">1h 50m</span>
+                <img src="icons/camiseta.png" class="program-icon">
+            </div>
+        </div>
+
+        <!-- Ropa oscura -->
+        <div class="program-card" onclick="selectProgram('Ropa oscura')">
+            <div class="program-left">
+                <h3>Ropa oscura</h3>
+                <p>Cuidado especial para tonos oscuros, evitando desgaste y pérdida de color.</p>
+
+            </div>
+            <div class="program-right">
+                <span class="time">1h 20m</span>
+                <img src="icons/night-mode.png" class="program-icon">
+            </div>
+        </div>
+
+        <!-- Toallas -->
+        <div class="program-card" onclick="selectProgram('Lavado Rápido')">
+            <div class="program-left">
+                <h3>Lavado Rápido</h3>
+                <p>Ciclo de alta temperatura para higiene, suavidad y máxima absorción.</p>
+
+            </div>
+            <div class="program-right">
+                <span class="time">2h 10m</span>
+                <img src="icons/clock.png" class="program-icon">
+            </div>
+        </div>
+
+        <!-- Ropa deportiva -->
+        <div class="program-card" onclick="selectProgram('Centrifugar')">
+            <div class="program-left">
+                <h3>Centrifugar</h3>
+                <p>Ciclo rápido para quitar la humedad y que las prendas estén un poco más secas</p>
+            </div>
+            <div class="program-right">
+                <span class="time">1h 5m</span>
+                <img src="icons/wind.png" class="program-icon">
+            </div>
+        </div>
+
+        <!-- Ropa de bebé -->
+        <div class="program-card" onclick="selectProgram('Ropa de bebé')">
+            <div class="program-left">
+                <h3>Ropa de bebé</h3>
+                <p>Lavado higiénico con aclarado extra para pieles sensibles.</p>
+
+            </div>
+            <div class="program-right">
+                <span class="time">1h 40m</span>
+                <img src="icons/baby.png" class="program-icon">
+            </div>
+        </div>
+
+    </div>
 </div>
 
+
+<!-- Menú inferior -->
 <div class="bottom-bar">
 
-    <button class="bottom-item" onclick="location.href='index.html'">
+    <button class="bottom-item" onclick="goToHome()">
         <img src="icons/casa.png" class="icon"><span>Inicio</span>
     </button>
 
-    <button class="bottom-item active" onclick="location.href='programas.html'">
+    <button class="bottom-item active">
         <img src="icons/engranaje.png" class="icon"><span>Programas</span>
     </button>
 
@@ -43,7 +138,18 @@
     </button>
 
 </div>
+<!-- ⭐ BOTÓN FLOTANTE DEL ASISTENTE DE VOZ ⭐ -->
+<div id="voiceBtn" class="voice-floating-btn">
+    <span class="mic-icon">🎤</span>
+</div>
+<script>
+function goToHome() {
+    localStorage.setItem("returnToHome", "1");
+    location.href = "index.html";
+}
+</script>
 
-
+<script src="voice.js"></script>
 </body>
 </html>
+

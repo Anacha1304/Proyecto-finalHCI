@@ -1,62 +1,374 @@
+.rest-overlay.show {
+    opacity: 1 !important;
+    pointer-events: all;
+}
+.hidden {
+    display: none !important;
+}
+
+
+/* Fondo borroso */
 .rest-overlay {
     position: fixed;
     inset: 0;
-    backdrop-filter: blur(6px);
-    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(8px);
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    flex-direction: column;   /* ← FALTABA ESTO */
+    justify-content: flex-start; 
+    align-items: center;
+    gap: 30px;                /* Espacio entre card y barra */
+    padding-top: 40px;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+
+
+/* Caja principal neumorfismo */
+.rest-box {
+    width: 90%;
+    max-width: 780px;
+    display: flex;
+    gap: 40px;
+    background: #fbfcff;
+    padding: 40px;
+    border-radius: 25px;
+
+    /* Sombra neumorfismo */
+    box-shadow:
+        12px 12px 18px rgba(0,0,0,0.15),
+        -6px -6px 12px rgba(255,255,255,0.8);
+}
+
+/* Círculo grande (igual al de la foto) */
+.rest-circle {
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    background: #f3f4f6;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
-    opacity: 0;
-    transition: opacity .5s ease;
+
+    box-shadow:
+        inset 3px 3px 6px rgba(0,0,0,0.18),
+        5px 5px 15px rgba(0,0,0,0.20),
+        -5px -5px 15px rgba(255,255,255,1);
 }
 
-.rest-overlay.show {
-    opacity: 1;
+/* Icono del círculo */
+.pause-icon {
+    font-size: 80px;
+    color: #2c5c89;
+    font-weight: 500;
 }
 
-.rest-box {
-    width: 85%;
-    background: white;
-    padding: 25px;
-    border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    text-align: center;
+/* Info a la derecha */
+.rest-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 25px;
 }
 
-.rest-title {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 20px;
+.rest-label {
+    font-size: 16px;
+    color: #4d6c8b;
+    display: block;
+    margin-bottom: 4px;
 }
 
-.rest-time {
-    font-size: 17px;
-    margin: 10px 0;
+.rest-value {
+    font-size: 32px;
+    font-weight: 600;
+    color: #2b4e73;
 }
 
+/* Barra de progreso */
 .rest-progress {
-    width: 100%;
-    height: 14px;
-    background: #dfe7f3;
-    border-radius: 10px;
+    width: 85%;
+    height: 12px;
+    background: #dfe6f1;
+    border-radius: 6px;
+    margin-top: 28px;
+    margin-left: auto;
+    margin-right: auto;
     overflow: hidden;
-    margin: 20px 0;
 }
 
 .rest-bar {
     height: 100%;
     width: 0%;
-    background: #4ba6ff;
-    transition: width 0.4s ease;
+    background: #3b74c2;
+    transition: width 0.3s ease;
 }
 
-.rest-actions {
+/* Botón detener */
+.stop-btn {
+    margin-top: 22px;
+    width: 85%;
+    padding: 18px 0;
+    background: #e57373;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 14px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.stop-btn:hover {
+    background: #d96060;
+}
+
+/* ===================== */
+/* ESTILO ESTILO MAQUETA */
+/* ===================== */
+
+.rest-card {
+    background: #ffffff;
+    width: 85%;
+    max-width: 780px;
+    padding: 40px 50px;
+    border-radius: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border: 3px solid #88a7d6;
+    display: flex;
+    gap: 50px;
+    min-height: 350px;   /* ← SIN ESTO SE VUELVE INVISIBLE */
+    z-index: 2;
+}
+
+/* LADO IZQUIERDO */
+.rest-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Círculo grande */
+.rest-circle {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: #eff3fa;
+    border: 8px solid #7ea1cf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.rest-pause-icon {
+    font-size: 75px;
+    color: #305b8c;
+}
+
+/* Pasos inferiores */
+.rest-steps {
+    display: flex;
+    gap: 18px;
+    margin-top: 10px;
+}
+
+.step {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #dbe3ef;
+    transition: background 0.3s ease, transform .2s ease;
+}
+
+.step.active {
+    background: #315f93;
+    transform: scale(1.15);
+}
+
+
+/* LADO DERECHO */
+.rest-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rest-label {
+    font-size: 19px;
+    color: #34577a;
+    margin-bottom: 5px;
+}
+
+.rest-value {
+    font-size: 31px;
+    font-weight: 600;
+    color: #1f4265;
+    margin-bottom: 20px;
+}
+
+.rest-info-row {
+    margin-top: 25px;
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
 }
 
-.hidden {
-    display: none !important;
+.rest-sub {
+    font-size: 17px;
+    color: #33536e;
 }
+
+.rest-sub-value {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1e4770;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .rest-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .rest-right {
+        align-items: center;
+    }
+}
+
+/* Botón circular */
+.circle-btn {
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    border: 8px solid #7ea1cf;
+    background: #eff3fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 85px;
+    font-weight: 600;
+    color: #325c89;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.circle-btn:active {
+    transform: scale(0.97);
+}
+
+/* Ícono dentro del círculo */
+#circleIcon {
+    font-size: 80px;
+    pointer-events: none;
+}
+
+/* Botón pequeño detener */
+.small-stop-btn {
+    margin-top: 18px;
+    width: 110px;
+    height: 55px;
+    background: #e57373;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.small-stop-btn:hover {
+    background: #d66060;
+}
+
+/* ========== BARRA DE PASOS AFUERA ========== */
+.steps-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.steps-line {
+    width: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* Línea del fondo */
+.steps-line::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 7px;
+    background: #e5e8ef;
+    transform: translateY(-50%);
+    border-radius: 10px;
+}
+
+/* Círculos */
+.step-circle {
+    width: 32px;
+    height: 32px;
+    background: white;
+    border-radius: 50%;
+    border: 3px solid #d0d6e2;
+    position: relative;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Cuando está activo / completado */
+.step-circle.active {
+    background: #315c8c;
+    border-color: #315c8c;
+}
+
+.step-circle.active::after {
+    content: "✓";
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+/* Línea azul que avanza */
+.progress-fill {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 7px;
+    background: #315c8c;
+    transform: translateY(-50%);
+    border-radius: 10px;
+    z-index: 3;
+}
+
+
+/* Activo (completado) */
+.step-circle.active {
+    background: #315c8c;
+    border-color: #315c8c;
+}
+
+.step-circle.active::after {
+    content: "✓";
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    
+}
+.progress-fill {
+    transform: translateY(-50%);
+    transform-origin: left center;     /* ← importante */
+}
+
