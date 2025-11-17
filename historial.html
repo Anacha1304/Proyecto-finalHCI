@@ -121,7 +121,12 @@ document.addEventListener("DOMContentLoaded", loadHistory);
 
 function loadHistory() {
     let history = getWashHistory(); // viene del sessionManager.js
+    
     const list = document.querySelector(".wash-list");
+
+    // 🔥 Actualizar contador total de lavadas (3 predeterminadas + nuevas)
+    document.getElementById("totalLavadas").textContent = 3 + history.length;
+
 
     // SI NO HAY HISTORIAL → dejamos lo predeterminado
     if (!history || history.length === 0) return; 
