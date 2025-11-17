@@ -75,7 +75,7 @@ html, body {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    z-index: 9999;
+    z-index: 999999999;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -107,6 +107,9 @@ html, body {
     100% { transform: scale(1); }
 }
 
+#restOverlay {
+    z-index: 9999; /* El mic estará por encima */
+}
 
 .panel {
   background: white;

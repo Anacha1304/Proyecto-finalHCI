@@ -218,3 +218,39 @@ function updateSteps(progress) {
     // Actualizar línea azul
     document.getElementById("stepsProgress").style.width = (progress * 100) + "%";
 }
+
+
+/* ====================================================
+   🌟 HACER FUNCIONES GLOBALES PARA VOZ
+==================================================== */
+
+// PAUSAR DESDE ASISTENTE
+window.pauseRestScreen = function () {
+    if (!paused) {
+        paused = true;
+        clearInterval(timer);
+        pauseTimestamp = Date.now();
+        circleIcon.textContent = "▶";
+        showAlert("Lavado en pausa ⏸", "success");
+    }
+};
+
+// REANUDAR DESDE ASISTENTE
+window.resumeRestScreen = function () {
+    if (paused) {
+        paused = false;
+        const pausedFor = Date.now() - pauseTimestamp;
+        startTime += pausedFor;
+        endTime += pausedFor;
+
+        circleIcon.textContent = "⏸";
+        startCountdown();
+
+        showAlert("Lavado reanudado ▶", "success");
+    }
+};
+
+// DETENER DESDE ASISTENTE
+window.stopRestScreen = function () {
+    stopAll(); // usamos tu función real
+};

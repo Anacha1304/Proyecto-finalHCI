@@ -86,6 +86,55 @@ recognition.onresult = (event) => {
 
 function handleVoiceCommand(command) {
 
+
+    /* ------------------------------
+          COMANDOS GLOBALES
+    ------------------------------*/
+
+    // ⭐ ESTADO DEL LAVADO
+    if (
+        command.includes("cómo va") ||
+        command.includes("estado") ||
+        command.includes("cómo va el lavado") ||
+        command.includes("lavado va")
+    ) {
+        const remaining = document.getElementById("remainingTime")?.textContent || "--";
+        const prog = currentProgram?.name || "desconocido";
+        const temp = document.getElementById("programTemp")?.textContent || "--";
+        const spin = document.getElementById("programSpin")?.textContent || "--";
+
+        speak(`El lavado sigue en curso. Faltan ${remaining}. 
+            Estás usando el programa ${prog}, 
+            a ${temp}, 
+            con un spin de ${spin}.`);
+        return;
+    }
+
+
+    if (command.includes("pausar")) {
+        speak("Pausando el lavado.");
+        pauseRestScreen?.();
+        return;
+    }
+
+    if (command.includes("detener")) {
+        speak("Deteniendo el lavado.");
+        stopRestScreen?.();
+        return;
+    }
+
+    // ⭐ REANUDAR LAVADO
+if (
+    command.includes("reanudar") ||
+    command.includes("continuar") ||
+    command.includes("seguir") ||
+    command.includes("resume")
+) {
+    speak("Reanudando el lavado.");
+    resumeRestScreen?.();
+    return;
+}
+
     /* ------------------------------
           INICIO DE CONVERSACIÓN
     ------------------------------*/
@@ -149,7 +198,17 @@ function handleVoiceCommand(command) {
     if (conversationState === "confirmStart") {
 
         if (command.includes("sí") || command.includes("inicia") || command.includes("empieza")) {
-            speak("Perfecto. Iniciando el lavado.");
+            const duration = document.getElementById("programTime")?.textContent || "--";
+            const temp = document.getElementById("programTemp")?.textContent || "--";
+            const spin = document.getElementById("programSpin")?.textContent || "--";
+            const prog = currentProgram?.name || "--";
+
+            speak(`Perfecto. Iniciando el lavado. 
+            Duración total ${duration}. 
+            Programa seleccionado: ${prog}. 
+            Temperatura del agua: ${temp}. 
+            Spin: ${spin} revoluciones.`);
+
             openRestScreen();
             conversationState = "idle";
             return;
@@ -180,21 +239,6 @@ function handleVoiceCommand(command) {
         }
 
         speak("No reconocí ese programa. ¿Cuál deseas usar?");
-        return;
-    }
-
-    /* ------------------------------
-          COMANDOS GLOBALES
-    ------------------------------*/
-    if (command.includes("pausar")) {
-        speak("Pausando el lavado.");
-        pauseRestScreen?.();
-        return;
-    }
-
-    if (command.includes("detener")) {
-        speak("Deteniendo el lavado.");
-        stopRestScreen?.();
         return;
     }
 
