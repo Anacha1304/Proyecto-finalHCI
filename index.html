@@ -150,24 +150,21 @@
 <!-- Overlay de reposo del lavado -->
 <div id="restOverlay" class="rest-overlay hidden">
 
-    <div class="rest-box">
+    <div class="rest-card">
 
-        <!-- Progreso -->
-        <p class="rest-title">Lavado en progreso</p>
+        <!-- Círculo grande -->
+        <div class="rest-left">
 
-        <div class="rest-time">
-            <span>Tiempo transcurrido:</span>
-            <strong id="elapsedTime">0 min</strong>
-        </div>
+            <!-- Círculo grande para pausar/reanudar -->
+            <button id="pausePlayBtn" class="circle-btn">
+                <span id="circleIcon">⏸</span>
+            </button>
 
-        <div class="rest-time">
-            <span>Tiempo restante:</span>
-            <strong id="remainingTime">--</strong>
-        </div>
+            <!-- Botón pequeño: detener -->
+            <button id="smallStopBtn" class="small-stop-btn">⏹</button>
 
-        <!-- Barra -->
-        <div class="rest-progress">
-            <div id="restBar" class="rest-bar"></div>
+            
+
         </div>
 
         <!-- Acciones -->
@@ -176,11 +173,49 @@
             <button id="stopRestBtn" class="btn red">⏹ Detener</button>
             
 
+        <!-- Datos de la derecha -->
+        <div class="rest-right">
+
+            <p class="rest-label">Tiempo restante</p>
+            <p class="rest-value" id="remainingTime">--</p>
+
+            <p class="rest-label">Hora Finalización</p>
+            <p class="rest-value" id="finishRestTime">--</p>
+
+            <div class="rest-info-row">
+                <div>
+                    <p class="rest-sub">Programa</p>
+                    <p class="rest-sub-value" id="programNameRest">--</p>
+                </div>
+                <div>
+                    <p class="rest-sub">Temperatura</p>
+                    <p class="rest-sub-value" id="programTempRest">--</p>
+                </div>
+                <div>
+                    <p class="rest-sub">Spin</p>
+                    <p class="rest-sub-value" id="programSpinRest">--</p>
+                </div>
+            </div>
+
         </div>
 
     </div>
+    <div class="steps-container">
+        <div class="steps-line">
+            <div id="stepsProgress" class="progress-fill"></div>
+
+            <div class="step-circle"></div>
+            <div class="step-circle"></div>
+            <div class="step-circle"></div>
+            <div class="step-circle"></div>
+            <div class="step-circle"></div>
+        </div>
+    </div>
+
+
 
 </div>
+
 
   <!-- JS EXTERNO -->
   <script src="app.js"></script>
