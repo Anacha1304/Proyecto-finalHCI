@@ -14,6 +14,7 @@
 </head>
 
 <body>
+    
 
 <!-- ENCABEZADO -->
 <div class="header-row">
@@ -99,16 +100,18 @@
     <button class="btn blue" onclick="guardarCambios()">Guardar</button>
 </div>
 
+<script src="sessionManager.js"></script>
+
 <script>
 /* -------------------------------------------------------
    🔥 CARGAR NOMBRE DEL PROGRAMA DESDE LOCALSTORAGE
 ------------------------------------------------------- */
 const programName = localStorage.getItem("selectedProgram") || "Delicado";
+
 document.getElementById("customTitle").textContent =
-    "Programa tu ciclo " + programName.toUpperCase() + ":";
+    "Programa tu ciclo " + programName + ":";
 
 document.getElementById("programSubtitle").textContent = programName;
-
 
 /* -------------------------------------------------------
    🔥 FUNCIONES PARA TEMPERATURA
@@ -147,9 +150,42 @@ function guardarCambios() {
         prelavado: document.getElementById("prelavadoToggle").checked
     };
 
-    saveProgramSettings(programName, settings);
+    saveProgramSettings(programName, settings);  // 🔥 normalizado
     alert("Configuración guardada ✔");
     location.href = "programas.html";
+}
+
+/* -------------------------------------------------------
+   🔥 CARGAR CONFIGURACIÓN GUARDADA (si existe)
+------------------------------------------------------- */
+const savedSettings = getProgramSettings(programName);
+
+if (savedSettings) {
+    // Temperatura
+    document.getElementById("tempValue").textContent = savedSettings.temp;
+
+    document.querySelectorAll("#tempOptions .opt-btn").forEach(btn => {
+        btn.classList.toggle(
+            "active",
+            btn.textContent.trim().replace("º", "") === savedSettings.temp.replace("ºC", "")
+        );
+    });
+
+    // Spin
+    document.getElementById("spinValue").textContent = savedSettings.spin;
+
+    document.querySelectorAll("#spinOptions .opt-btn").forEach(btn => {
+        btn.classList.toggle(
+            "active",
+            btn.textContent.trim() === savedSettings.spin.trim()
+        );
+    });
+
+    // Shampoo extra
+    document.getElementById("shampooToggle").checked = savedSettings.shampoo;
+
+    // Prelavado
+    document.getElementById("prelavadoToggle").checked = savedSettings.prelavado;
 }
 
 
@@ -160,6 +196,7 @@ function cancelar() {
     location.href = "programas.html";
 }
 </script>
+
 
 </body>
 </html>

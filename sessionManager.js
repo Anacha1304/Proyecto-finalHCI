@@ -2,6 +2,10 @@
    🌟 SESSION MANAGER — GLOBAL (SIN IMPORTS)
 ====================================================== */
 
+function normalize(name) {
+    return name.toLowerCase();
+}
+
 if (!sessionStorage.getItem("sessionData")) {
     sessionStorage.setItem("sessionData", JSON.stringify({
         programSettings: {},
@@ -20,17 +24,35 @@ window.saveSession = function (data) {
     sessionStorage.setItem("sessionData", JSON.stringify(data));
 };
 
-// Save settings for a specific program
-window.saveProgramSettings = function (programName, settings) {
-    const data = loadSession();
-    data.programSettings[programName] = settings;
-    saveSession(data);
-};
+function selectProgram(programName) {
+    const key = programName.toLowerCase();  // 🔥 normalizado
+    
+    setLastProgram(key);
 
-// Get settings
-window.getProgramSettings = function (programName) {
-    return loadSession().programSettings[programName] || null;
-};
+    const settings = getProgramSettings(key);
+
+    if (settings) {
+        document.getElementById("programTemp").textContent = settings.temp;
+        document.getElementById("programSpin").textContent = settings.spin;
+    }
+
+    localStorage.setItem("selectedProgram", key); // 🔥 corregido
+    location.href = "personalizarPrograma.html";
+}
+
+
+// Save settings for a specific program
+function saveProgramSettings(programName, settings) {
+    programName = normalize(programName);
+    sessionStorage.setItem("settings_" + programName, JSON.stringify(settings));
+}
+
+function getProgramSettings(programName) {
+    programName = normalize(programName);
+    const data = sessionStorage.getItem("settings_" + programName);
+    return data ? JSON.parse(data) : null;
+}
+
 
 // Save last selected program
 window.setLastProgram = function (programName) {
