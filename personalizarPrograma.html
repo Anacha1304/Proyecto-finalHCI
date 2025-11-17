@@ -147,10 +147,8 @@ function guardarCambios() {
         prelavado: document.getElementById("prelavadoToggle").checked
     };
 
-    localStorage.setItem("customSettings_" + programName, JSON.stringify(settings));
-
-    alert("Configuración guardada correctamente ✔");
-
+    saveProgramSettings(programName, settings);
+    alert("Configuración guardada ✔");
     location.href = "programas.html";
 }
 

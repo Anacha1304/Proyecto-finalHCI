@@ -144,13 +144,18 @@ function goToHome() {
     localStorage.setItem("returnToHome", "1");
     location.href = "index.html";
 }
+</script>
 
-/* ✔ FUNCIÓN AÑADIDA PARA IR A PERSONALIZAR */
+
+<script src="sessionManager.js"></script>
+<script>
 function selectProgram(programName) {
+    setLastProgram(programName);
     localStorage.setItem("selectedProgram", programName);
-    location.href = "personalizarPrograma.html"; 
+    location.href = "personalizarPrograma.html";
 }
 </script>
+
 
 <script src="voice.js"></script>
 
