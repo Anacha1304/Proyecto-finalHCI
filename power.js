@@ -3,7 +3,14 @@ const powerOverlay = document.getElementById("powerOverlay");
 const powerReturnBtn = document.getElementById("powerReturnBtn");
 const transitionOverlay = document.getElementById("transitionOverlay");
 
-let isOn = false; // inicia apagado
+// Si vienes desde Programas o Historial, la lavadora debe aparecer encendida
+if (localStorage.getItem("returnToHome") === "1") {
+    isOn = true;  
+    powerOverlay.classList.add("hidden");  // Oculta pantalla apagada
+    localStorage.removeItem("returnToHome"); // limpiar
+} else {
+    isOn = false; // carga normal
+}
 
 powerCircle.addEventListener("click", turnOff);
 powerReturnBtn.addEventListener("click", turnOn);

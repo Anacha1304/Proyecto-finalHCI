@@ -29,7 +29,6 @@ body {
   text-align: center;
   flex-grow: 1;
   margin-right: 120px; /* para compensar y centrar visualmente */
-  margin-bottom: 20px;
   
 }
 
@@ -42,7 +41,7 @@ body {
 
 .subtitle {
   font-size: 15px;
-  margin-top: 10px;
+  margin-top: -6px;
   color: #8aa5bd;
 }
 
@@ -54,7 +53,58 @@ body {
   justify-content: center;
   align-items: flex-start;
   gap: 30px;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+}
+html, body {
+  overflow-x: hidden;
+}
+/* ======================================================
+      🎤 BOTÓN FLOTANTE DEL ASISTENTE DE VOZ
+====================================================== */
+
+.voice-floating-btn {
+    position: fixed;
+    bottom: 85px;
+    right: 25px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #76b7ff, #3d8be8);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 9999;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Icono */
+.voice-floating-btn .mic-icon {
+    font-size: 32px;
+    transition: 0.25s ease;
+}
+
+/* Hover */
+.voice-floating-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.35);
+}
+
+/* ======================================================
+      🔥 ANIMACIÓN DE ESCUCHA (PULSO)
+====================================================== */
+
+.voice-floating-btn.listening {
+    background: #ff6161;
+    box-shadow: 0 0 18px 6px rgba(255, 70, 70, 0.6);
+    animation: pulse 1.4s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
 }
 
 
@@ -69,6 +119,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex: 1 1 400px;
 }
 
 
@@ -347,6 +398,22 @@ body {
   display: none !important;
 }
 
+.program-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  width: 90%;
+  margin: 20px auto;
+}
+
+.program-card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
+  font-size: 18px;
+  color: #18629A;
+}
 
 /* 🔵 Alinea círculo + texto lado a lado */
 /* Estructura del bloque superior (círculo + tiempos) */
