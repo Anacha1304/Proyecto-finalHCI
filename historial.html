@@ -24,7 +24,7 @@
 <div class="stats-container">
 
     <div class="stat-card">
-        <h3 class="stat-value" id="totalLavadas">5</h3>
+        <h3 class="stat-value" id="totalLavadas">3</h3>
         <p class="stat-label">Total de Lavadas</p>
     </div>
 
@@ -114,6 +114,69 @@ function goToHome() {
 </script>
 
 <script src="voice.js"></script>
+
+<script src="sessionManager.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", loadHistory);
+
+function loadHistory() {
+    let history = getWashHistory(); // viene del sessionManager.js
+    const list = document.querySelector(".wash-list");
+
+    // SI NO HAY HISTORIAL → dejamos lo predeterminado
+    if (!history || history.length === 0) return; 
+
+    // SI SÍ HAY HISTORIAL → limpiamos solo la parte dinámica
+    list.innerHTML = "";
+
+    // Primero agregamos los 3 predeterminados
+    const defaults = [
+        {
+            program: "Algodón",
+            date: "2025-11-01",
+            duration: "2h 30min",
+            temp: "40ºC"
+        },
+        {
+            program: "Lavado Rápido",
+            date: "2025-11-03",
+            duration: "30min",
+            temp: "30ºC"
+        },
+        {
+            program: "Delicado",
+            date: "2025-11-05",
+            duration: "1h 15min",
+            temp: "30ºC"
+        }
+    ];
+
+    const combined = [...defaults, ...history];
+
+    combined.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+    combined.forEach(entry => {
+        const card = document.createElement("div");
+        card.classList.add("wash-card");
+
+        card.innerHTML = `
+            <div class="wash-header">
+                <h3>${entry.program}</h3>
+                <span class="badge">Completo</span>
+            </div>
+            <div class="wash-info">
+                <span class="info-item">📅 ${entry.date}</span>
+                <span class="info-item">⏱ ${entry.duration}</span>
+                <span class="info-item">🌡 ${entry.temp}</span>
+            </div>
+        `;
+
+        list.appendChild(card);
+    });
+
+}
+</script>
+
 
 </body>
 </html>

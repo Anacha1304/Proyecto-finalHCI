@@ -104,6 +104,7 @@ function updateCountdown() {
 
         addWashHistory({
             program: currentProgram.name,
+            timestamp: Date.now(),               // <-- clave
             date: new Date().toISOString().split("T")[0],
             duration: formatTime(totalMs),
             temp: programTempRest.textContent
