@@ -256,6 +256,10 @@ function handleFiducial(id) {
     showError();
     showText(`${clothingNames[type]} ✖ NO compatible con ${currentProgram.name}`, "error");
 }
+// 🔥 AQUÍ SE ACTIVA EL ASISTENTE DE VOZ 🔥
+    if (typeof voiceFiducialDetected === "function") {
+        voiceFiducialDetected(type);
+    }
 
 }
 

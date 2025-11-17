@@ -105,11 +105,15 @@
     </div>
 
   </div>
+  <!-- ⭐ BOTÓN FLOTANTE DEL ASISTENTE GAM ⭐ -->
+  <div id="voiceBtn" class="voice-floating-btn">
+    <span class="mic-icon">🎤</span>
+  </div>
 
     <!-- Menú inferior -->
     <div class="bottom-bar">
 
-        <button class="bottom-item active" onclick="location.href='index.html'">
+        <button class="bottom-item" onclick="goToHome()">
             <img src="icons/casa.png" class="icon"> <span>Inicio</span>
         </button>
 
@@ -131,7 +135,6 @@
     <div class="alert-content">
       <span id="alertMessage">Mensaje</span>
     </div>
-  </div>
 </div> <!-- SCREEN 1 -->
 
 
@@ -171,6 +174,8 @@
         <div class="rest-actions">
             <button id="pauseRestBtn" class="btn white">⏸ Pausar</button>
             <button id="stopRestBtn" class="btn red">⏹ Detener</button>
+            
+
         </div>
 
     </div>
@@ -181,8 +186,14 @@
   <script src="app.js"></script>
   <script src="power.js"></script>
   <script src="reposo.js"></script>
-
-
+  <script type="module" src="voice.js"></script>
 
 </body>
 </html>
+<script>
+function goToHome() {
+    localStorage.setItem("returnToHome", "1");
+    location.href = "index.html";
+}
+</script>
+
