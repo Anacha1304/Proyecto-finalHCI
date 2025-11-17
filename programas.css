@@ -1,158 +1,70 @@
-/* CENTRAR TODO EL CONTENIDO */
-.programs-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* CENTRA TODO */
-}
-
-/* TÍTULO CENTRADO */
-.programs-title {
-    font-size: 1.4rem; 
-    font-weight: 600;
-    color: #2e4a6b;
-    margin: 20px 0 10px 0;
-    text-align: center;
-}
- 
-
-/* GRID CENTRADO Y LIMITADO */
+/* CONTENEDOR */
 .program-grid {
     width: 100%;
-    max-width: 900px;   /* ⭐ CENTRA EL BLOQUE */
+    max-width: 900px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px 30px;     /* Separación vertical y horizontal */
-    padding: 0 20px;
-    justify-items: center; /* CENTRA LAS TARJETAS */
+    gap: 22px 28px;
+    padding: 0 15px;
+    margin-top: 10px;
+    justify-items: center;
 }
 
-/* TARJETAS MÁS COMPACTAS Y CENTRADAS */
+/* TARJETA */
 .program-card {
+    background: #fff;
     width: 100%;
-    max-width: 380px;   /* ⭐ MISMO ANCHO QUE TU MOCKUP */
-    background: white;
-    border-radius: 15px;
-    padding: 18px 20px;
+    max-width: 360px;      /* ⭐ mismo ancho que tu diseño original */
+    border-radius: 18px;
+    padding: 22px 20px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+
+    height: 80px;         /* ⭐ altura como el mockup */
+    cursor: pointer;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.09);
+    transition: 0.15s ease;
 }
- 
 
 .program-card:hover {
-    transform: scale(1.02);
+    transform: translateY(-3px);
 }
 
-/* Texto lado izquierdo */
-.program-left h3 {
-    font-size: 1.1rem;
+/* IZQUIERDA */
+.left h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
     margin: 0;
-    color: #2b4a6e;
-    font-weight: 700;
+    color: #264a66;
 }
 
-.program-left p {
-    font-size: 0.8rem;
-    margin-top: 4px;
-    color: #4e6a88;
+.left p {
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: #4f6b88;
+    line-height: 1.2rem;
+    max-width: 95%;
 }
 
-/* Lado derecho */
-.program-right {
-    text-align: right;
-}
-
-.time {
-    display: block;
-    font-weight: 700;
-    color: #2b4a6e;
-    margin-bottom: 5px;
-}
-
-/* Iconos */
-.program-icon {
-    width: 28px;
-    height: 28px;
-    opacity: 0.85;
-}
-
-/* CENTRAR TODO EL CONTENIDO */
-.programs-container {
-    width: 100%;
+/* DERECHA */
+.right {
     display: flex;
     flex-direction: column;
-    align-items: center; /* CENTRA TODO */
+    align-items: flex-end;
 }
 
-/* TÍTULO CENTRADO */
-.programs-title {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #2e4a6b;
-    margin: 20px 0 10px 0;
-    text-align: center;
-}
-
-/* GRID CENTRADO Y LIMITADO */
-.program-grid {
-    width: 100%;
-    max-width: 900px;   /* ⭐ CENTRA EL BLOQUE */
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px 30px;     /* Separación vertical y horizontal */
-    padding: 0 20px;
-    justify-items: center; /* CENTRA LAS TARJETAS */
-}
-
-/* TARJETAS MÁS COMPACTAS Y CENTRADAS */
-.program-card {
-    width: 100%;
-    max-width: 380px;   /* ⭐ MISMO ANCHO QUE TU MOCKUP */
-    background: white;
-    border-radius: 15px;
-    padding: 18px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-}
- 
-
-.program-card:hover {
-    transform: scale(1.02);
-}
-
-/* Texto lado izquierdo */
-.program-left h3 {
-    font-size: 1.1rem;
-    margin: 0;
-    color: #2b4a6e;
+.duration {
+    font-size: 1.25rem;       /* ⭐ duración grande como el mockup */
     font-weight: 700;
+    color: #264a66;
+    margin-bottom: 6px;
 }
 
-.program-left p {
-    font-size: 0.8rem;
-    margin-top: 4px;
-    color: #4e6a88;
-}
-
-/* Lado derecho */
-.program-right {
-    text-align: right;
-}
-
-.time {
-    display: block;
-    font-weight: 700;
-    color: #2b4a6e;
-    margin-bottom: 5px;
-}
-
-/* Iconos */
-.program-icon {
-    width: 28px;
-    height: 28px;
+.icon {
+    width: 32px;
+    height: 32px;
     opacity: 0.85;
 }

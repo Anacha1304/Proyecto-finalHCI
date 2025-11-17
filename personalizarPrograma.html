@@ -74,7 +74,7 @@
                 <span class="desc">Adicionar shampoo extra al ciclo</span></p>
 
                 <label class="switch">
-                    <input type="checkbox" id="shampooToggle">
+                    <input type="checkbox" id="shampooToggle" aria-label="Activar shampoo extra">
                     <span class="slider"></span>
                 </label>
             </div>
@@ -84,7 +84,7 @@
                 <span class="desc">Para prendas extremadamente percudidas</span></p>
 
                 <label class="switch">
-                    <input type="checkbox" id="prelavadoToggle">
+                    <input type="checkbox" id="prelavadoToggle" aria-label="Activar prelavado">
                     <span class="slider"></span>
                 </label>
             </div>
@@ -150,10 +150,22 @@ function guardarCambios() {
         prelavado: document.getElementById("prelavadoToggle").checked
     };
 
-    saveProgramSettings(programName, settings);  // 🔥 normalizado
-    alert("Configuración guardada ✔");
-    location.href = "programas.html";
+    saveProgramSettings(programName, settings);
+
+    // Mostrar popup bonito ✨
+    document.getElementById("savePopup").classList.add("show");
 }
+
+
+function closePopup() {
+    document.getElementById("savePopup").classList.remove("show");
+
+    // Pequeño delay para smoothness
+    setTimeout(() => {
+        location.href = "programas.html";
+    }, 200);
+}
+
 
 /* -------------------------------------------------------
    🔥 CARGAR CONFIGURACIÓN GUARDADA (si existe)
@@ -196,6 +208,16 @@ function cancelar() {
     location.href = "programas.html";
 }
 </script>
+
+<!-- 🔥 POPUP DE CONFIRMACIÓN -->
+<div id="savePopup" class="popup-overlay">
+    <div class="popup-card">
+        <h2 class="popup-title">¡Configuración guardada!</h2>
+        <p class="popup-text">Tu ciclo personalizado ha sido actualizado correctamente.</p>
+
+        <button class="btn blue" onclick="closePopup()">Aceptar</button>
+    </div>
+</div>
 
 
 </body>
