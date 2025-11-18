@@ -58,53 +58,86 @@ body {
 html, body {
   overflow-x: hidden;
 }
-/* ======================================================
-      🎤 BOTÓN FLOTANTE DEL ASISTENTE DE VOZ
-====================================================== */
-
-.voice-floating-btn {
+/* CONTENEDOR GENERAL */
+.assistant-wrapper {
     position: fixed;
-    bottom: 85px;
+    bottom: 110px;
     right: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 9999;
+}
+
+/* BOTÓN DEL ASISTENTE */
+.assistant-btn {
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background: linear-gradient(145deg, #76b7ff, #3d8be8);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    background: linear-gradient(145deg, #c7e3ff, #e9f3ff);
+    box-shadow:
+        0 8px 18px rgba(90,150,255,0.35),
+        inset 0 4px 6px rgba(255,255,255,0.7);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    z-index: 999999999;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: .2s ease;
+    animation: floaty 3s ease-in-out infinite;
 }
 
-/* Icono */
-.voice-floating-btn .mic-icon {
+.assistant-btn:hover {
+    transform: scale(1.12);
+    box-shadow:
+        0 10px 26px rgba(90,150,255,0.6),
+        inset 0 4px 6px rgba(255,255,255,1);
+}
+
+/* ICONO DEL MICRÓFONO */
+.mic-icon {
     font-size: 32px;
-    transition: 0.25s ease;
+    color: #3c6fa3;
 }
 
-/* Hover */
-.voice-floating-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.35);
+/* MODO ESCUCHANDO */
+.assistant-btn.listening {
+    background: linear-gradient(145deg, #75c8ff, #a7e1ff);
+    box-shadow:
+        0 0 20px rgba(80,180,255,0.7),
+        0 0 35px rgba(120,200,255,0.5);
 }
 
-/* ======================================================
-      🔥 ANIMACIÓN DE ESCUCHA (PULSO)
-====================================================== */
-
-.voice-floating-btn.listening {
-    background: #ff6161;
-    box-shadow: 0 0 18px 6px rgba(255, 70, 70, 0.6);
-    animation: pulse 1.4s infinite ease-in-out;
+.assistant-btn.listening .mic-icon {
+    color: white;
+    text-shadow: 0 0 12px #ffffff;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.15); }
-    100% { transform: scale(1); }
+/* BURBUJA DE MENSAJE */
+.assistant-bubble {
+    background: white;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #3c6fa3;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: .25s ease;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    pointer-events: none;
+}
+
+.assistant-bubble.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ANIMACIÓN FLOTANTE */
+@keyframes floaty {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
 }
 
 #restOverlay {
