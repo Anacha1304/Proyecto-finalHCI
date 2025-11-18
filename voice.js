@@ -3,11 +3,12 @@
 ==================================================== */
 
 /* ------------------------------
-      ESTADOS DE LA CONVERSACIÓN
+      ESTADOS
 --------------------------------*/
-let conversationState = "start"; 
+let conversationState = "start";
 let pendingClothes = null;
 let pendingProgram = null;
+
 
 /* ====================================================
       🔊 TEXT TO SPEECH
@@ -17,9 +18,14 @@ function speak(text) {
     utter.lang = "es-ES";
     utter.pitch = 1;
     utter.rate = 1;
+
     speechSynthesis.cancel();
     speechSynthesis.speak(utter);
+
+    // Mostrar mensaje visual bonito (si existe el contenedor)
+    showAssistantMessage(text);
 }
+
 
 /* ====================================================
       🎤 SPEECH RECOGNITION
@@ -33,69 +39,104 @@ recognition.continuous = false;
 
 let voiceBtn = null;
 
-/* Cuando carga la página, engancha el botón */
+
+/* Cuando carga la página */
 document.addEventListener("DOMContentLoaded", () => {
     voiceBtn = document.getElementById("voiceBtn");
-    if (voiceBtn) {
-        voiceBtn.addEventListener("click", startListening);
+    if (voiceBtn) voiceBtn.addEventListener("click", startListening);
+
+    if (window.location.pathname.includes("personalizarPrograma.html")) {
+        conversationState = "customizing";   // Evita saludo
+        console.log("Asistente en modo personalización 🎛️");
     }
 });
 
-/* Cambiar estado visual */
-function setButtonListeningState(isListening) {
-    if (!voiceBtn) return;
 
-    if (isListening) {
-        voiceBtn.classList.add("listening");
-        voiceBtn.querySelector(".mic-icon").textContent = "🎧";
-    } else {
-        voiceBtn.classList.remove("listening");
-        voiceBtn.querySelector(".mic-icon").textContent = "🎤";
-    }
-}
-
-
-
+/* ====================================================
+      ▶ INICIAR ESCUCHA
+==================================================== */
 function startListening() {
 
-    // Activar animación de escucha
     setButtonListeningState(true);
 
     if (conversationState === "start") {
         speak("Hola, soy Gam, tu asistente inteligente de lavado. ¿Qué prenda deseas lavar hoy?");
         conversationState = "waiting_for_intent";
-    } else {
-        speak("");
     }
 
     recognition.start();
 }
 
+
 /* ====================================================
-      🎧 PROCESAR RESPUESTA DE VOZ
+      🎧 PROCESAR RESULTADO
 ==================================================== */
 recognition.onresult = (event) => {
     const command = event.results[0][0].transcript.toLowerCase();
     console.log("🗣️ Usuario dijo:", command);
+
     handleVoiceCommand(command);
 };
 
-/* ====================================================
-      🧠 LÓGICA COMPLETA DE DIÁLOGO
-==================================================== */
+recognition.onend = () => setButtonListeningState(false);
 
+
+
+
+/* ====================================================
+      🧠 MANEJO DE COMANDOS PRINCIPALES
+==================================================== */
 function handleVoiceCommand(command) {
 
+    /* ====================================================
+   🔵 MODO PERSONALIZACIÓN — evitar saludo
+==================================================== */
+if (conversationState === "customizing") {
+    return handleCustomizationCommands(command);
+}
 
-    /* ------------------------------
-          COMANDOS GLOBALES
-    ------------------------------*/
+    /* ====================================================
+         🔵 NAVEGACIÓN GLOBAL (SIEMPRE DISPONIBLE)
+    ==================================================== */
+    if (command.includes("inicio") || command.includes("pantalla principal")) {
+        conversationState = "idle";
+        assistantNavigate("home", "Regresando a la pantalla principal.");
+        return;
+    }
 
-    // ⭐ ESTADO DEL LAVADO
+    if (
+        command.includes("personalizar") ||
+        command.includes("configurar") ||
+        command.includes("ajustar ciclo")
+    ) {
+        conversationState = "idle";
+        assistantNavigate("personalizar", "Vamos a personalizar tu ciclo.");
+        return;
+    }
+
+    if (command.includes("ver programas") || command.includes("abrir programas")) {
+        conversationState = "idle";
+        assistantNavigate("programas", "Abriendo lista de ciclos disponibles.");
+        return;
+    }
+
+    // Mostrar SOLO los nombres de los ciclos
+    if (
+        command.includes("qué programas") ||
+        command.includes("programas disponibles") ||
+        command.includes("qué ciclos")
+    ) {
+        listAllPrograms();
+        return;
+    }
+
+
+    /* ====================================================
+         🔵 COMANDOS DE ESTADO DEL LAVADO
+    ==================================================== */
     if (
         command.includes("cómo va") ||
         command.includes("estado") ||
-        command.includes("cómo va el lavado") ||
         command.includes("lavado va")
     ) {
         const remaining = document.getElementById("remainingTime")?.textContent || "--";
@@ -103,13 +144,9 @@ function handleVoiceCommand(command) {
         const temp = document.getElementById("programTemp")?.textContent || "--";
         const spin = document.getElementById("programSpin")?.textContent || "--";
 
-        speak(`El lavado sigue en curso. Faltan ${remaining}. 
-            Estás usando el programa ${prog}, 
-            a ${temp}, 
-            con un spin de ${spin}.`);
+        speak(`El lavado sigue en curso. Faltan ${remaining}. Estás usando el programa ${prog}, a ${temp}, con un spin de ${spin}.`);
         return;
     }
-
 
     if (command.includes("pausar")) {
         speak("Pausando el lavado.");
@@ -123,59 +160,72 @@ function handleVoiceCommand(command) {
         return;
     }
 
-    // ⭐ REANUDAR LAVADO
-if (
-    command.includes("reanudar") ||
-    command.includes("continuar") ||
-    command.includes("seguir") ||
-    command.includes("resume")
-) {
-    speak("Reanudando el lavado.");
-    resumeRestScreen?.();
+    if (command.includes("reanudar") || command.includes("continuar")) {
+        speak("Reanudando el lavado.");
+        resumeRestScreen?.();
+        return;
+    }
+
+    /* ====================================================
+   🔵 SELECCIÓN DE PROGRAMA DESPUÉS DE LISTARLOS
+==================================================== */
+if (conversationState === "askProgramInstead") {
+
+    // Detectar si el usuario mencionó un programa válido
+    const match = matchesProgram(command);
+
+    if (match) {
+        pendingProgram = match;
+        activateProgram(match);
+
+        speak(`Programa ${programs[match].name} activado. ¿Quieres iniciar el lavado ahora?`);
+
+        conversationState = "confirmStart";
+        return;
+    }
+
+    // Si no reconoce el programa
+    speak("No reconocí ese programa, ¿cuál deseas usar?");
     return;
 }
 
-    /* ------------------------------
-          INICIO DE CONVERSACIÓN
-    ------------------------------*/
+
+    /* ====================================================
+          🔵 FLUJO CONVERSACIONAL
+    ==================================================== */
+
     if (conversationState === "waiting_for_intent") {
 
-        if (command.includes("lavar") || command.includes("ropa") || command.includes("prenda")) {
+        if (command.includes("lavar") || command.includes("ropa")) {
             speak("Perfecto. ¿Qué prenda quieres lavar?");
             conversationState = "askingClothes";
             return;
         }
 
-        speak("Puedo ayudarte a lavar tu ropa o recomendarte un programa. ¿Qué deseas hacer?");
+        speak("Puedo ayudarte a elegir un programa o iniciar un lavado. ¿Qué deseas hacer?");
         return;
     }
 
-    /* ------------------------------
-          IDENTIFICAR PRENDA (POR VOZ)
-    ------------------------------*/
     if (conversationState === "askingClothes") {
 
         pendingClothes = detectClothes(command);
 
         if (!pendingClothes) {
-            speak("No reconocí la prenda. ¿Podrías repetir qué prenda deseas lavar?");
+            speak("No reconocí la prenda. ¿Me repites cuál es?");
             return;
         }
 
         pendingProgram = recommendProgramForClothes(pendingClothes);
 
-        speak(`Según la prenda, te recomiendo el programa ${programs[pendingProgram].name}. ¿Deseas usarlo?`);
-        
+        speak(`Según la prenda, te recomiendo el programa ${programs[pendingProgram].name}. ¿Quieres usarlo?`);
+
         conversationState = "confirmProgram";
         return;
     }
 
-    /* ------------------------------
-          CONFIRMAR PROGRAMA
-    ------------------------------*/
     if (conversationState === "confirmProgram") {
 
-        if (command.includes("sí") || command.includes("claro") || command.includes("dale")) {
+        if (command.includes("sí") || command.includes("claro")) {
             activateProgram(pendingProgram);
             speak(`Programa ${programs[pendingProgram].name} activado. ¿Quieres iniciar el lavado ahora?`);
             conversationState = "confirmStart";
@@ -183,31 +233,22 @@ if (
         }
 
         if (command.includes("no")) {
-            speak("Está bien. ¿Qué otro programa quieres usar?");
+            speak("Está bien. ¿Qué otro programa deseas?");
             conversationState = "askProgramInstead";
             return;
         }
 
-        speak("¿Quieres usar ese programa sí o no?");
+        speak("¿Lo activamos sí o no?");
         return;
     }
 
-    /* ------------------------------
-          INICIAR LAVADO
-    ------------------------------*/
+
     if (conversationState === "confirmStart") {
 
-        if (command.includes("sí") || command.includes("inicia") || command.includes("empieza")) {
-            const duration = document.getElementById("programTime")?.textContent || "--";
-            const temp = document.getElementById("programTemp")?.textContent || "--";
-            const spin = document.getElementById("programSpin")?.textContent || "--";
-            const prog = currentProgram?.name || "--";
+        if (command.includes("sí") || command.includes("inicia")) {
 
-            speak(`Perfecto. Iniciando el lavado. 
-            Duración total ${duration}. 
-            Programa seleccionado: ${prog}. 
-            Temperatura del agua: ${temp}. 
-            Spin: ${spin} revoluciones.`);
+            const duration = document.getElementById("programTime")?.textContent || "--";
+            speak(`Perfecto. Iniciando el lavado. Duración total ${duration}.`);
 
             openRestScreen();
             conversationState = "idle";
@@ -215,81 +256,143 @@ if (
         }
 
         if (command.includes("no")) {
-            speak("Muy bien, dime cuando quieras iniciar.");
+            speak("Muy bien, lo iniciaré cuando me indiques.");
             conversationState = "idle";
             return;
         }
 
-        speak("¿Deseas iniciar el lavado?");
+        speak("¿Quieres iniciar el lavado ahora?");
         return;
     }
 
-    /* ------------------------------
-          ELEGIR OTRO PROGRAMA
-    ------------------------------*/
-    if (conversationState === "askProgramInstead") {
 
-        let match = matchesProgram(command);
-
-        if (match) {
-            activateProgram(match);
-            speak(`Programa ${programs[match].name} activado. ¿Deseas iniciar el lavado ahora?`);
-            conversationState = "confirmStart";
-            return;
-        }
-
-        speak("No reconocí ese programa. ¿Cuál deseas usar?");
-        return;
+    /* ====================================================
+          🔵 PERSONALIZACIÓN (solo en la página correcta)
+    ==================================================== */
+    if (window.location.pathname.includes("personalizarPrograma.html")) {
+        return handleCustomizationCommands(command);
     }
 
-    speak("No entendí eso. ¿Quieres que te ayude a lavar algo?");
+    speak("No entendí eso. ¿Me lo repites?");
     conversationState = "waiting_for_intent";
 }
 
+
 /* ====================================================
-      🟣 🔥 INTEGRACIÓN CON FIDUCIALES
+      🔥 PERSONALIZACIÓN POR VOZ
 ==================================================== */
+function handleCustomizationCommands(command) {
 
-/*  
-   🔥 LLAMA ESTA FUNCIÓN DESDE handleFiducial(id)
-   en tu archivo app.js:
+    /* TEMPERATURA */
+    const tempMatch = command.match(/(\d+)\s*(grados|grado|º|c)/);
+    if (tempMatch) {
+        const value = parseInt(tempMatch[1]);
+        const valid = [10,20,30,40,50];
 
-   → voiceFiducialDetected("white");
-*/
+        if (valid.includes(value)) {
+            const btn = [...document.querySelectorAll("#tempOptions .opt-btn")]
+                .find(b => b.textContent.includes(value));
 
+            btn?.click();
+            speak(`Temperatura configurada a ${value} grados.`);
+        } else {
+            speak("Esa temperatura no está disponible.");
+        }
+        return;
+    }
+
+    /* SPIN */
+    const spinMatch = command.match(/(\d+)\s*(rpm|revoluciones|spin|centrifugado)/);
+    if (spinMatch) {
+        const value = parseInt(spinMatch[1]);
+        const valid = [400,800,1000,1200,1400];
+
+        if (valid.includes(value)) {
+            const btn = [...document.querySelectorAll("#spinOptions .opt-btn")]
+                .find(b => b.textContent.includes(value));
+
+            btn?.click();
+            speak(`Centrifugado configurado a ${value} revoluciones.`);
+        } else {
+            speak("No tengo esa velocidad.");
+        }
+        return;
+    }
+
+    /* SHAMPOO EXTRA */
+    if (command.includes("shampoo")) {
+        const toggle = document.getElementById("shampooToggle");
+
+        if (command.includes("activar") || command.includes("enciende")) {
+            toggle.checked = true;
+            speak("Shampoo extra activado.");
+        } else if (command.includes("desactivar") || command.includes("apaga")) {
+            toggle.checked = false;
+            speak("Shampoo extra desactivado.");
+        }
+        return;
+    }
+
+    /* PRELAVADO */
+    if (command.includes("prelavado")) {
+        const toggle = document.getElementById("prelavadoToggle");
+
+        if (command.includes("activar")) {
+            toggle.checked = true;
+            speak("Prelavado activado.");
+        } else if (command.includes("desactivar")) {
+            toggle.checked = false;
+            speak("Prelavado desactivado.");
+        }
+        return;
+    }
+
+    /* GUARDAR */
+    if (command.includes("guardar") || command.includes("confirmar")) {
+        speak("Guardando la configuración.");
+        guardarCambios?.();
+        return;
+    }
+
+    /* CANCELAR */
+    if (command.includes("cancelar") || command.includes("volver")) {
+        speak("Cancelando y regresando al menú.");
+        cancelar?.();
+        return;
+    }
+}
+
+
+/* ====================================================
+      🟣 FIDUCIALES
+==================================================== */
 window.voiceFiducialDetected = function(clothingType) {
 
     pendingClothes = clothingType;
-
     const ropa = clothingNames[clothingType] || clothingType;
 
     const recomendado = recommendProgramForClothes(clothingType);
     pendingProgram = recomendado;
 
-    const nombreProgramaActual = currentProgram.name;
-    const nombreProgramaRecomendado = programs[recomendado].name;
+    const actual = currentProgram.name;
+    const recomendadoNombre = programs[recomendado].name;
 
     const esCompatible = currentProgram.allowed.includes(clothingType);
 
-    // ✔ 1. Si es compatible → SOLO informar, nada más
     if (esCompatible) {
-        speak(`La prenda ${ropa} sí la puedes meter con el ciclo ${nombreProgramaActual}.`);
-        conversationState = "idle"; // No seguimos conversación, se queda feliz
+        speak(`La prenda ${ropa} es compatible con el ciclo actual.`);
         return;
     }
 
-    // ✘ 2. Si NO es compatible → Informar + recomendar
-    speak(`La prenda ${ropa} no es compatible con el ciclo ${nombreProgramaActual} que tienes programado en este momento.Te recomiendo usar el programa ${nombreProgramaRecomendado}. ¿Deseas cambiarlo?`);
+    speak(`La prenda ${ropa} no es compatible con el ciclo actual. Te recomiendo ${recomendadoNombre}. ¿Deseas cambiarlo?`);
 
-    conversationState = "confirmProgram"; // Ahora sí esperamos respuesta
+    conversationState = "confirmProgram";
 };
-
 
 
 /* ====================================================
       🔧 UTILIDADES
 ==================================================== */
-
 function detectClothes(text) {
     if (text.includes("toalla")) return "towel";
     if (text.includes("blanca")) return "white";
@@ -319,23 +422,151 @@ function matchesProgram(command) {
     return null;
 }
 
-/* ====================================================
-      ⭐ ACTIVAR PROGRAMA
-==================================================== */
 function activateProgram(key) {
     currentProgram = programs[key];
     updateProgramUI();
 }
 
+
 /* ====================================================
-      ⭐ HACER FUNCIONES GLOBALES
+      ⭐ FUNCIÓN GLOBAL
 ==================================================== */
 window.startListening = startListening;
 window.speak = speak;
 
-console.log("🎤 Asistente de voz GAM cargado ✔ con soporte para FIDUCIALES");
+
+/* ====================================================
+      🎨 ESTADOS VISUALES DEL BOTÓN DEL ASISTENTE
+==================================================== */
+const btn = document.getElementById("voiceBtn");
+const bubble = document.getElementById("assistantBubble");
+
+btn?.addEventListener("mouseenter", () => bubble?.classList.add("show"));
+btn?.addEventListener("mouseleave", () => bubble?.classList.remove("show"));
+
+function setButtonListeningState(isListening) {
+    if (!btn) return;
+
+    if (isListening) {
+        btn.classList.add("listening");
+        btn.querySelector(".mic-icon").textContent = "🎧";
+    } else {
+        btn.classList.remove("listening");
+        btn.querySelector(".mic-icon").textContent = "🎤";
+    }
+}
 
 
-recognition.onend = () => {
-    setButtonListeningState(false);
+/* ====================================================
+      🔧 MOSTRAR / OCULTAR ASISTENTE SEGÚN PANTALLA
+==================================================== */
+
+const assistantWrapper = document.querySelector(".assistant-wrapper");
+const restOverlay = document.getElementById("restOverlay");
+const powerOverlay = document.getElementById("powerOverlay");
+
+window.moveAssistantToRest = function () {
+    if (assistantWrapper && restOverlay) {
+        restOverlay.appendChild(assistantWrapper);
+    }
+};
+
+window.moveAssistantToHome = function () {
+    if (assistantWrapper) {
+        document.body.appendChild(assistantWrapper);
+    }
+};
+
+function hideAssistantWhenPowerOff() {
+    if (!assistantWrapper) return;
+
+    // Si no hay powerOverlay (por ejemplo, en personalizarPrograma.html), siempre mostramos el asistente
+    if (!powerOverlay) {
+        assistantWrapper.style.display = "flex";
+        return;
+    }
+
+    if (
+        powerOverlay.classList.contains("active") ||
+        powerOverlay.style.display === "flex"
+    ) {
+        assistantWrapper.style.display = "none";
+    } else {
+        assistantWrapper.style.display = "flex";
+    }
+}
+
+// Solo crear observer si existe powerOverlay en esta página
+if (powerOverlay) {
+    const powerObserver = new MutationObserver(hideAssistantWhenPowerOff);
+    powerObserver.observe(powerOverlay, { attributes: true, attributeFilter: ["class", "style"] });
+}
+
+// Llamar una vez al inicio
+hideAssistantWhenPowerOff();
+
+
+/* ====================================================
+      🌟 BURBUJA DE MENSAJES VISUALES
+==================================================== */
+window.showAssistantMessage = function(text){
+    const msg = document.getElementById("assistantMessage");
+    if(!msg) return;
+
+    msg.textContent = text;
+    msg.classList.add("show");
+
+    setTimeout(() => msg.classList.remove("show"), 2000);
+};
+
+
+/* ====================================================
+      🚀 NAVEGACIÓN ENTRE PANTALLAS
+==================================================== */
+window.assistantNavigate = function(screen, message="") {
+
+    if (message) speak(message);
+
+    const overlay = document.getElementById("transitionOverlay");
+
+    if (overlay) {
+        overlay.classList.remove("hidden");
+        overlay.classList.add("showing");
+    }
+
+    setTimeout(() => {
+
+        switch(screen) {
+            case "home":        location.href = "index.html"; break;
+            case "programas":   location.href = "programas.html"; break;
+            case "personalizar":location.href = "personalizarPrograma.html"; break;
+            case "reposo":      openRestScreen?.(); break;
+        }
+
+        setTimeout(() => {
+            overlay?.classList.remove("showing");
+            overlay?.classList.add("hidden");
+        }, 700);
+
+    }, 600);
+};
+
+
+/* ====================================================
+      📢 LISTA DE PROGRAMAS DISPONIBLES
+==================================================== */
+window.listAllPrograms = function () {
+
+    if (!programs) {
+        speak("Lo siento, no encontré los programas disponibles.");
+        return;
+    }
+
+    const nombres = Object.values(programs).map(p => p.name);
+
+    const lista = nombres.join(", ");
+
+    speak(`Estos son los programas disponibles: ${lista}. ¿Cuál deseas usar?`);
+
+    conversationState = "askProgramInstead"; 
 };

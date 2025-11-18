@@ -32,6 +32,7 @@ const SPEED = 200;
       🔥 ABRIR PANTALLA Y EMPEZAR LAVADO
 ============================================ */
 function openRestScreen() {
+    moveAssistantToRest();
     // Mostrar overlay
     restOverlay.classList.remove("hidden");
     setTimeout(() => restOverlay.classList.add("show"), 20);
@@ -181,6 +182,8 @@ function stopAll() {
 
     home.classList.remove("hidden");
     home.classList.add("active");
+    moveAssistantToHome();
+
 
     showAlert("Lavado detenido ⏹", "error");
 }
