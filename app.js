@@ -133,8 +133,8 @@ const programs = {
 
 const clothingMap = {
     0: "towel", 1: "white", 2: "light", 3: "dark", 4: "red", 5: "blue",
-    6: "delicate", 7: "black", 8: "towel", 9: "sport", 10: "sport",
-    11: "synthetic", 12: "jeans", 13: "baby", 14: "baby"
+    5: "delicate", 6: "black", 7: "towel", 8: "sport", 9: "sport",
+    10: "synthetic", 11: "jeans", 12: "baby"
 };
 
 const clothingNames = {
