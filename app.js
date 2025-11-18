@@ -383,6 +383,7 @@ function showErrorOverlay() {
     overlay.classList.remove("hidden");
     overlay.classList.add("show");
     overlay.style.display = "flex";
+    voiceFiducialDetected(15);
 }
 
 function closeErrorOverlay() {
@@ -398,6 +399,7 @@ function showMotorOverlay() {
     overlay.classList.remove("hidden");
     overlay.classList.add("show");
     overlay.style.display = "flex";
+    voiceFiducialDetected(16);
 }
 
 function closeMotorOverlay() {
@@ -413,6 +415,7 @@ function showMotorOkOverlay() {
     overlay.classList.remove("hidden");
     overlay.classList.add("show");
     overlay.style.display = "flex";
+    voiceFiducialDetected(17);
 }
 
 function closeMotorOkOverlay() {
