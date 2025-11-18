@@ -213,10 +213,12 @@
 
 
   <!-- JS EXTERNO -->
+  <script src="sessionManager.js"></script>
   <script src="app.js"></script>
   <script src="power.js"></script>
   <script src="reposo.js"></script>
   <script type="module" src="voice.js"></script>
+
 
 </body>
 </html>
@@ -226,4 +228,21 @@ function goToHome() {
     location.href = "index.html";
 }
 </script>
+
+<script>
+
+function selectProgram(programName) {
+    setLastProgram(programName);
+
+    const settings = getProgramSettings(programName);
+
+    if (settings) {
+        document.getElementById("programTemp").textContent = settings.temp;
+        document.getElementById("programSpin").textContent = settings.spin;
+    }
+
+    location.href = "personalizarPrograma.html";
+}
+</script>
+
 

@@ -7,20 +7,84 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="responsive.css">
   <link rel="stylesheet" href="power.css">
-
+  <link rel="stylesheet" href="historial.css">
 </head>
+
 <body>
 
 <div class="header-row">
     <div></div>
     <div class="title-group">
-        <h1 class="title">Historial</h1>
-        <h2 class="subtitle">Lavados recientes</h2>
+        <h1 class="title">GAM Wash Pro</h1>
+        <h2 class="subtitle">Historial de lavadas</h2>
     </div>
 </div>
 
-<h2 class="title">No hay lavados aún.</h2>
+<!-- 🔥 TARJETAS DE ESTADÍSTICAS -->
+<div class="stats-container">
 
+    <div class="stat-card">
+        <h3 class="stat-value" id="totalLavadas">3</h3>
+        <p class="stat-label">Total de Lavadas</p>
+    </div>
+
+    <div class="stat-card">
+        <h3 class="stat-value" id="tempProm">35ºC</h3>
+        <p class="stat-label">Temp. Promedio</p>
+    </div>
+
+    <div class="stat-card">
+        <h3 class="stat-value" id="durProm">2.1h</h3>
+        <p class="stat-label">Duración Promedio</p>
+    </div>
+
+</div>
+
+<!-- 🔥 LISTA DE LAVADOS -->
+<div class="wash-list">
+
+    <div class="wash-card">
+        <div class="wash-header">
+            <h3>Algodón</h3>
+            <span class="badge">Completo</span>
+        </div>
+
+        <div class="wash-info">
+            <span class="info-item">📅 01/11/2025</span>
+            <span class="info-item">⏱ 2h 30min</span>
+            <span class="info-item">🌡 40ºC</span>
+        </div>
+    </div>
+
+    <div class="wash-card">
+        <div class="wash-header">
+            <h3>Lavado Rápido</h3>
+            <span class="badge">Completo</span>
+        </div>
+
+        <div class="wash-info">
+            <span class="info-item">📅 03/11/2025</span>
+            <span class="info-item">⏱ 30min</span>
+            <span class="info-item">🌡 30ºC</span>
+        </div>
+    </div>
+
+    <div class="wash-card">
+        <div class="wash-header">
+            <h3>Delicado</h3>
+            <span class="badge">Completo</span>
+        </div>
+
+        <div class="wash-info">
+            <span class="info-item">📅 05/11/2025</span>
+            <span class="info-item">⏱ 1h 15min</span>
+            <span class="info-item">🌡 30ºC</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- 🔥 MENÚ INFERIOR -->
 <div class="bottom-bar">
 
     <button class="bottom-item" onclick="goToHome()">
@@ -31,13 +95,13 @@
         <img src="icons/engranaje.png" class="icon"><span>Programas</span>
     </button>
 
-    <button class="bottom-item active" onclick="location.href='historial.html'">
+    <button class="bottom-item active">
         <img src="icons/historico.png" class="icon"><span>Historial</span>
     </button>
 
 </div>
 
-<!-- ⭐ BOTÓN FLOTANTE DEL ASISTENTE DE VOZ ⭐ -->
+<!-- Asistente de voz -->
 <div id="voiceBtn" class="voice-floating-btn">
     <span class="mic-icon">🎤</span>
 </div>
@@ -48,9 +112,76 @@ function goToHome() {
     location.href = "index.html";
 }
 </script>
+
 <script src="voice.js"></script>
+
+<script src="sessionManager.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", loadHistory);
+
+function loadHistory() {
+    let history = getWashHistory(); // viene del sessionManager.js
+    
+    const list = document.querySelector(".wash-list");
+
+    // 🔥 Actualizar contador total de lavadas (3 predeterminadas + nuevas)
+    document.getElementById("totalLavadas").textContent = 3 + history.length;
+
+
+    // SI NO HAY HISTORIAL → dejamos lo predeterminado
+    if (!history || history.length === 0) return; 
+
+    // SI SÍ HAY HISTORIAL → limpiamos solo la parte dinámica
+    list.innerHTML = "";
+
+    // Primero agregamos los 3 predeterminados
+    const defaults = [
+        {
+            program: "Algodón",
+            date: "2025-11-01",
+            duration: "2h 30min",
+            temp: "40ºC"
+        },
+        {
+            program: "Lavado Rápido",
+            date: "2025-11-03",
+            duration: "30min",
+            temp: "30ºC"
+        },
+        {
+            program: "Delicado",
+            date: "2025-11-05",
+            duration: "1h 15min",
+            temp: "30ºC"
+        }
+    ];
+
+    const combined = [...defaults, ...history];
+
+    combined.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+    combined.forEach(entry => {
+        const card = document.createElement("div");
+        card.classList.add("wash-card");
+
+        card.innerHTML = `
+            <div class="wash-header">
+                <h3>${entry.program}</h3>
+                <span class="badge">Completo</span>
+            </div>
+            <div class="wash-info">
+                <span class="info-item">📅 ${entry.date}</span>
+                <span class="info-item">⏱ ${entry.duration}</span>
+                <span class="info-item">🌡 ${entry.temp}</span>
+            </div>
+        `;
+
+        list.appendChild(card);
+    });
+
+}
+</script>
+
 
 </body>
 </html>
-
-

@@ -1,0 +1,102 @@
+/* -----------------------------
+   CONTENEDOR DE ESTADÍSTICAS
+------------------------------ */
+.stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 0 25px;
+}
+
+/* Tarjetas más pequeñas, centradas y uniformes */
+.stat-card {
+    background: #fff;
+    padding: 22px 25px;
+    border-radius: 20px;
+
+    width: 25%;            /* más pequeño */
+    max-width: 250px;      /* límite elegante */
+    min-width: 180px;      /* evita que sea demasiado pequeño */
+
+    text-align: center;
+
+    box-shadow:
+        8px 8px 15px rgba(0,0,0,0.07),
+        -8px -8px 15px rgba(255,255,255,0.9);
+}
+
+
+.wash-card {
+    width: 90%;
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.stat-value {
+    font-size: 26px;
+    font-weight: 800;
+    color: #7aa7da;
+}
+
+.stat-label {
+    font-size: 15px;
+    color: #5a6e8a;
+    margin-top: 5px;
+}
+
+
+
+/* -----------------------------
+        TARJETAS DE LAVADOS
+------------------------------ */
+.wash-list {
+    padding: 10px 20px 90px;
+}
+
+.wash-card {
+    background: #fff;
+    padding: 18px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+
+    box-shadow:
+        8px 8px 15px rgba(0,0,0,0.1),
+        -8px -8px 15px rgba(255,255,255,0.9);
+}
+
+.wash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wash-header h3 {
+    font-size: 20px;
+    color: #2d4770;
+}
+
+.badge {
+    background: #cfe2ff;
+    color: #4d76ac;
+    padding: 6px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.wash-info {
+    margin-top: 12px;
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.info-item {
+    color: #4d648f;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}

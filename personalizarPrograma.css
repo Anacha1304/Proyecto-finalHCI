@@ -239,3 +239,66 @@ input:checked + .slider:before {
 .btn:hover {
     transform: scale(1.03);
 }
+
+/* 🔥 OVERLAY */
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+}
+
+.popup-overlay.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* 🔥 TARJETA */
+.popup-card {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 20px;
+    align-items: center;
+    text-align: center;
+    max-width: 350px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    animation: pop .25s ease;
+}
+
+.popup-card .btn {
+    margin: 20px auto 0 auto; /* 🔥 Centra el botón */
+    display: block;
+    width: 60%;               /* opcional: para que se vea mejor */
+    max-width: 260px;
+}
+
+@keyframes pop {
+    from { transform: scale(0.8); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+/* 🔥 ÍCONO GRANDE */
+.popup-icon {
+    width: 80px;
+    margin-bottom: 15px;
+}
+
+/* 🔥 TÍTULOS */
+.popup-title {
+    font-size: 1.4rem;
+    color: #1d3557;
+    margin-bottom: 10px;
+}
+
+.popup-text {
+    color: #4a4a4a;
+    margin-bottom: 20px;
+}
+

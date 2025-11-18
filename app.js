@@ -173,9 +173,23 @@ const programOrder = [
 
 let programIndex = 0;
 
+// 🔥 Cargar ajustes guardados del programa si existen
+const saved = getProgramSettings(currentProgram.name);
+if (saved) {
+    programData[currentProgram.name].temp = saved.temp;
+    programData[currentProgram.name].spin = saved.spin;
+}
+
+
 document.getElementById("programBtn").addEventListener("click", () => {
     programIndex = (programIndex + 1) % programOrder.length;
     currentProgram = programs[programOrder[programIndex]];
+    // 🔧 Cargar memorias del programa seleccionado
+    const saved = getProgramSettings(currentProgram.name);
+    if (saved) {
+        programData[currentProgram.name].temp = saved.temp;
+        programData[currentProgram.name].spin = saved.spin;
+    }
     updateProgramUI();
 
 
@@ -233,6 +247,13 @@ function handleFiducial(id) {
 
         const programKey = programFiducials[id];
         currentProgram = programs[programKey];
+
+        // 🔧 Cargar ajustes del usuario
+        const saved = getProgramSettings(currentProgram.name);
+        if (saved) {
+            programData[currentProgram.name].temp = saved.temp;
+            programData[currentProgram.name].spin = saved.spin;
+        }
 
         updateProgramUI();
 

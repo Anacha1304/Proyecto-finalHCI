@@ -100,13 +100,27 @@ function updateCountdown() {
     const progress = elapsedSim / totalMs;
     updateSteps(progress);
 
-    if (remaining === 0) {
+    if (remaining <= 0) {
+
+        addWashHistory({
+            program: currentProgram.name,
+            timestamp: Date.now(),               // <-- clave
+            date: new Date().toISOString().split("T")[0],
+            duration: formatTime(totalMs),
+            temp: programTempRest.textContent
+        });
+
+        // Detenemos el timer aquí para que no se siga llamando
+        clearInterval(timer);
+
+        // Cerramos pantalla de reposo y volvemos al inicio
         stopAll();
+
+        // Mensaje de éxito
         showAlert("Lavado finalizado ✔", "success");
+        return;
     }
 }
-
-
 
 /* ============================================
       🔥 PAUSAR / REANUDAR

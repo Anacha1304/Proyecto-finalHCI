@@ -29,91 +29,86 @@
 
     <div class="program-grid">
 
-        <!-- Delicado -->
-        <div class="program-card" onclick="selectProgram('Delicado')">
-            <div class="program-left">
-                <h3>Delicado</h3>
-                <p>Ciclo suave con baja fricción y temperatura para proteger telas finas.</p>
-            </div>
-            <div class="program-right">
-                <span class="time">1h 15m</span>
-                <img src="icons/lightweight.png" class="program-icon">
-            </div>
+    <!-- PLANTILLA UNIFORME -->
+    <div class="program-card" onclick="selectProgram('Delicado')">
+        <div class="left">
+            <h3>Delicado</h3>
+            <p>Ciclo suave para prendas delicadas.</p>
         </div>
-
-        <!-- Colores -->
-        <div class="program-card" onclick="selectProgram('Colores')">
-            <div class="program-left">
-                <h3>Colores</h3>
-                <p>Lavado equilibrado que evita desteñidos y conserva la intensidad del color.</p>
-            </div>
-            <div class="program-right">
-                <span class="time">1h 30m</span>
-                <img src="icons/colores.png" class="program-icon">
-            </div>
+        <div class="right">
+            <span class="duration">1h 15m</span>
+            <img src="icons/lightweight.png" class="icon">
         </div>
-
-        <!-- Ropa blanca -->
-        <div class="program-card" onclick="selectProgram('Ropa blanca')">
-            <div class="program-left">
-                <h3>Ropa blanca</h3>
-                <p>Limpieza profunda con mayor temperatura para prendas claras y manchas difíciles.</p>
-            </div>
-            <div class="program-right">
-                <span class="time">1h 50m</span>
-                <img src="icons/camiseta.png" class="program-icon">
-            </div>
-        </div>
-
-        <!-- Ropa oscura -->
-        <div class="program-card" onclick="selectProgram('Ropa oscura')">
-            <div class="program-left">
-                <h3>Ropa oscura</h3>
-                <p>Cuidado especial para tonos oscuros, evitando desgaste y pérdida de color.</p>
-            </div>
-            <div class="program-right">
-                <span class="time">1h 20m</span>
-                <img src="icons/night-mode.png" class="program-icon">
-            </div>
-        </div>
-
-        <!-- Lavado Rápido -->
-        <div class="program-card" onclick="selectProgram('Lavado Rápido')">
-            <div class="program-left">
-                <h3>Lavado Rápido</h3>
-                <p>Ciclo de alta temperatura para higiene, suavidad y máxima absorción.</p>
-            </div>
-            <div class="program-right">
-                <span class="time">2h 10m</span>
-                <img src="icons/clock.png" class="program-icon">
-            </div>
-        </div>
-
-        <!-- Centrifugar -->
-        <div class="program-card" onclick="selectProgram('Centrifugar')">
-            <div class="program-left">
-                <h3>Centrifugar</h3>
-                <p>Ciclo rápido para quitar la humedad y que las prendas estén un poco más secas.</p>
-            </div>
-            <div class="program-right">
-                <span class="time">1h 5m</span>
-                <img src="icons/wind.png" class="program-icon">
-            </div>
-        </div>
-
-        <!-- Ropa de bebé -->
-        <div class="program-card" onclick="selectProgram('Ropa de bebé')">
-            <div class="program-left">
-                <h3>Ropa de bebé</h3>
-                <p>Lavado higiénico con aclarado extra para pieles sensibles.</p>
-            </div>
-            <div class="program-right">
-                <span class="time">1h 40m</span>
-                <img src="icons/baby.png" class="program-icon">
-            </div>
-        </div>
-
     </div>
+
+    <div class="program-card" onclick="selectProgram('Colores')">
+        <div class="left">
+            <h3>Colores</h3>
+            <p>Protege colores, evita desteñidos.</p>
+        </div>
+        <div class="right">
+            <span class="duration">1h 30m</span>
+            <img src="icons/art.png" class="icon">
+        </div>
+    </div>
+
+    <div class="program-card" onclick="selectProgram('Ropa blanca')">
+        <div class="left">
+            <h3>Ropa blanca</h3>
+            <p>Limpieza profunda para prendas claras.</p>
+        </div>
+        <div class="right">
+            <span class="duration">1h 50m</span>
+            <img src="icons/camiseta.png" class="icon">
+        </div>
+    </div>
+
+    <div class="program-card" onclick="selectProgram('Ropa oscura')">
+        <div class="left">
+            <h3>Ropa oscura</h3>
+            <p>Cuidado especial sin desgaste.</p>
+        </div>
+        <div class="right">
+            <span class="duration">1h 20m</span>
+            <img src="icons/night-mode.png" class="icon">
+        </div>
+    </div>
+
+    <div class="program-card" onclick="selectProgram('Lavado Rápido')">
+        <div class="left">
+            <h3>Lavado Rápido</h3>
+            <p>Ciclo rápido para ropa poco sucia.</p>
+        </div>
+        <div class="right">
+            <span class="duration">2h 10m</span>
+            <img src="icons/clock.png" class="icon">
+        </div>
+    </div>
+
+    <div class="program-card" onclick="selectProgram('Centrifugar')">
+        <div class="left">
+            <h3>Centrifugar</h3>
+            <p>Elimina humedad en pocos minutos.</p>
+        </div>
+        <div class="right">
+            <span class="duration">1h 5m</span>
+            <img src="icons/wind.png" class="icon">
+        </div>
+    </div>
+
+    <div class="program-card" onclick="selectProgram('Ropa de bebé')">
+        <div class="left">
+            <h3>Ropa de bebé</h3>
+            <p>Lavado higiénico para pieles sensibles.</p>
+        </div>
+        <div class="right">
+            <span class="duration">1h 40m</span>
+            <img src="icons/baby.png" class="icon">
+        </div>
+    </div>
+
+</div>
+
 </div>
 
 
@@ -144,13 +139,18 @@ function goToHome() {
     localStorage.setItem("returnToHome", "1");
     location.href = "index.html";
 }
+</script>
 
-/* ✔ FUNCIÓN AÑADIDA PARA IR A PERSONALIZAR */
+
+<script src="sessionManager.js"></script>
+<script>
 function selectProgram(programName) {
+    setLastProgram(programName);
     localStorage.setItem("selectedProgram", programName);
-    location.href = "personalizarPrograma.html"; 
+    location.href = "personalizarPrograma.html";
 }
 </script>
+
 
 <script src="voice.js"></script>
 

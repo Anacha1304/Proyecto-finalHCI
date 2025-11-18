@@ -14,6 +14,7 @@
 </head>
 
 <body>
+    
 
 <!-- ENCABEZADO -->
 <div class="header-row">
@@ -73,7 +74,7 @@
                 <span class="desc">Adicionar shampoo extra al ciclo</span></p>
 
                 <label class="switch">
-                    <input type="checkbox" id="shampooToggle">
+                    <input type="checkbox" id="shampooToggle" aria-label="Activar shampoo extra">
                     <span class="slider"></span>
                 </label>
             </div>
@@ -83,7 +84,7 @@
                 <span class="desc">Para prendas extremadamente percudidas</span></p>
 
                 <label class="switch">
-                    <input type="checkbox" id="prelavadoToggle">
+                    <input type="checkbox" id="prelavadoToggle" aria-label="Activar prelavado">
                     <span class="slider"></span>
                 </label>
             </div>
@@ -99,16 +100,18 @@
     <button class="btn blue" onclick="guardarCambios()">Guardar</button>
 </div>
 
+<script src="sessionManager.js"></script>
+
 <script>
 /* -------------------------------------------------------
    🔥 CARGAR NOMBRE DEL PROGRAMA DESDE LOCALSTORAGE
 ------------------------------------------------------- */
 const programName = localStorage.getItem("selectedProgram") || "Delicado";
+
 document.getElementById("customTitle").textContent =
-    "Programa tu ciclo " + programName.toUpperCase() + ":";
+    "Programa tu ciclo " + programName + ":";
 
 document.getElementById("programSubtitle").textContent = programName;
-
 
 /* -------------------------------------------------------
    🔥 FUNCIONES PARA TEMPERATURA
@@ -147,11 +150,54 @@ function guardarCambios() {
         prelavado: document.getElementById("prelavadoToggle").checked
     };
 
-    localStorage.setItem("customSettings_" + programName, JSON.stringify(settings));
+    saveProgramSettings(programName, settings);
 
-    alert("Configuración guardada correctamente ✔");
+    // Mostrar popup bonito ✨
+    document.getElementById("savePopup").classList.add("show");
+}
 
-    location.href = "programas.html";
+
+function closePopup() {
+    document.getElementById("savePopup").classList.remove("show");
+
+    // Pequeño delay para smoothness
+    setTimeout(() => {
+        location.href = "programas.html";
+    }, 200);
+}
+
+
+/* -------------------------------------------------------
+   🔥 CARGAR CONFIGURACIÓN GUARDADA (si existe)
+------------------------------------------------------- */
+const savedSettings = getProgramSettings(programName);
+
+if (savedSettings) {
+    // Temperatura
+    document.getElementById("tempValue").textContent = savedSettings.temp;
+
+    document.querySelectorAll("#tempOptions .opt-btn").forEach(btn => {
+        btn.classList.toggle(
+            "active",
+            btn.textContent.trim().replace("º", "") === savedSettings.temp.replace("ºC", "")
+        );
+    });
+
+    // Spin
+    document.getElementById("spinValue").textContent = savedSettings.spin;
+
+    document.querySelectorAll("#spinOptions .opt-btn").forEach(btn => {
+        btn.classList.toggle(
+            "active",
+            btn.textContent.trim() === savedSettings.spin.trim()
+        );
+    });
+
+    // Shampoo extra
+    document.getElementById("shampooToggle").checked = savedSettings.shampoo;
+
+    // Prelavado
+    document.getElementById("prelavadoToggle").checked = savedSettings.prelavado;
 }
 
 
@@ -162,6 +208,17 @@ function cancelar() {
     location.href = "programas.html";
 }
 </script>
+
+<!-- 🔥 POPUP DE CONFIRMACIÓN -->
+<div id="savePopup" class="popup-overlay">
+    <div class="popup-card">
+        <h2 class="popup-title">¡Configuración guardada!</h2>
+        <p class="popup-text">Tu ciclo personalizado ha sido actualizado correctamente.</p>
+
+        <button class="btn blue" onclick="closePopup()">Aceptar</button>
+    </div>
+</div>
+
 
 </body>
 </html>
