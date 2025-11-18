@@ -60,7 +60,7 @@ function startListening() {
     setButtonListeningState(true);
 
     if (conversationState === "start") {
-        speak("Hola, soy Gam, tu asistente inteligente de lavado. ¿Qué prenda deseas lavar hoy?");
+        speak("               Hola, soy Gam, tu asistente inteligente de lavado. ¿Qué prenda deseas lavar hoy?");
         conversationState = "waiting_for_intent";
     }
 
@@ -91,9 +91,9 @@ function handleVoiceCommand(command) {
     /* ====================================================
    🔵 MODO PERSONALIZACIÓN — evitar saludo
 ==================================================== */
-if (conversationState === "customizing") {
-    return handleCustomizationCommands(command);
-}
+    if (conversationState === "customizing") {
+        return handleCustomizationCommands(command);
+    }
 
     /* ====================================================
          🔵 NAVEGACIÓN GLOBAL (SIEMPRE DISPONIBLE)
@@ -165,24 +165,25 @@ if (conversationState === "customizing") {
         resumeRestScreen?.();
         return;
     }
+    
 
     /* ====================================================
    🔵 SELECCIÓN DE PROGRAMA DESPUÉS DE LISTARLOS
-==================================================== */
-if (conversationState === "askProgramInstead") {
+    ==================================================== */
+    if (conversationState === "askProgramInstead") {
 
-    // Detectar si el usuario mencionó un programa válido
-    const match = matchesProgram(command);
+        // Detectar si el usuario mencionó un programa válido
+        const match = matchesProgram(command);
 
-    if (match) {
-        pendingProgram = match;
-        activateProgram(match);
+        if (match) {
+            pendingProgram = match;
+            activateProgram(match);
 
-        speak(`Programa ${programs[match].name} activado. ¿Quieres iniciar el lavado ahora?`);
+            speak(`Programa ${programs[match].name} activado. ¿Quieres iniciar el lavado ahora?`);
 
-        conversationState = "confirmStart";
-        return;
-    }
+            conversationState = "confirmStart";
+            return;
+        }
 
     // Si no reconoce el programa
     speak("No reconocí ese programa, ¿cuál deseas usar?");
@@ -367,6 +368,24 @@ function handleCustomizationCommands(command) {
       🟣 FIDUCIALES
 ==================================================== */
 window.voiceFiducialDetected = function(clothingType) {
+    // 🛠️ Manejo de errores por fiducial
+    switch (clothingType) {
+        case 15:
+            speak("Hemos detectado un fallo en tu lavadora. Escanearemos las piezas para identificar el problema.");
+            conversationState = "errorDetected";
+            return;
+
+        case 16:
+            speak("fallo crítico del motor, la pieza del motor necesita ser reemplazada. !Gritos Internos¡");
+            conversationState = "motorFailure";
+            return;
+
+        case 17:
+            speak("La pieza del motor está en óptimas condiciones. Todo funciona correctamente.");
+            conversationState = "motorOk";
+            return;
+    }
+
 
     pendingClothes = clothingType;
     const ropa = clothingNames[clothingType] || clothingType;
@@ -384,7 +403,7 @@ window.voiceFiducialDetected = function(clothingType) {
         return;
     }
 
-    speak(`La prenda ${ropa} no es compatible con el ciclo actual. Te recomiendo ${recomendadoNombre}. ¿Deseas cambiarlo?`);
+    speak(`La prenda ${ropa} no es compatible con el ciclo ${actual}. Te recomiendo ${recomendadoNombre}. ¿Deseas cambiarlo?`);
 
     conversationState = "confirmProgram";
 };
