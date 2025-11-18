@@ -235,6 +235,14 @@ document.getElementById("programBtn").addEventListener("click", () => {
 
 /* --- Fiducial --- */
 function handleFiducial(id) {
+    // 🔥 CORRECCIÓN: convertir 55 en 15
+    if (id === 55) {
+        console.log("⚠ Ajustando ID 55 → 15 por error de lectura");
+        id = 15;
+    }
+
+
+    // 🟦 0. Si NO hay objeto → limpiar
     if (id == -1) {
         resetFiducialView();
         clearOverlay();
@@ -242,13 +250,33 @@ function handleFiducial(id) {
         return;
     }
 
-    // 1️⃣ Si el fiducial corresponde a un PROGRAMA
-    if (programFiducials[id]) {
+    // 🟥 1. PRIORIDAD MÁXIMA → ERROR DE LAVADORA
+    if (id === 15) {
+        console.log("👀 FIDUCIAL 15 DETECTADO → MOSTRAR ERROR");
+        showErrorOverlay();
+        return;
+    }
 
+    // 🟥 1.2 FALLA DE MOTOR (FIDUCIAL 16)
+    if (id === 16) {
+        console.log("👀 FIDUCIAL 16 DETECTADO → MOTOR FALLANDO");
+        showMotorOverlay();
+        return;
+    }
+
+    // 🟩 1.3 MOTOR EN BUEN ESTADO (FIDUCIAL 17)
+    if (id === 17) {
+        console.log("💚 FIDUCIAL 17 DETECTADO → MOTOR OK");
+        showMotorOkOverlay();
+        return;
+    }
+
+
+    // 🟩 2. Si es un fiducial de programa → cambiar programa
+    if (programFiducials[id]) {
         const programKey = programFiducials[id];
         currentProgram = programs[programKey];
 
-        // 🔧 Cargar ajustes del usuario
         const saved = getProgramSettings(currentProgram.name);
         if (saved) {
             programData[currentProgram.name].temp = saved.temp;
@@ -256,14 +284,12 @@ function handleFiducial(id) {
         }
 
         updateProgramUI();
-
         showAlert(`Programa cambiado a ${currentProgram.name} vía código 🔄`, "success");
-
-        return; // <-- importante para que NO siga a la parte de ropa
+        return;
     }
 
+    // 🟨 3. Fiducial de ropa → compatibilidad
     updateFiducialImage(id);
-
 
     const type = clothingMap[id];
     if (!type) return;
@@ -271,18 +297,20 @@ function handleFiducial(id) {
     const name = clothingNames[type];
 
     if (currentProgram.allowed.includes(type)) {
-    showCheck();
-    showText(`${clothingNames[type]} ✔ compatible con ${currentProgram.name}`, "success");
-} else {
-    showError();
-    showText(`${clothingNames[type]} ✖ NO compatible con ${currentProgram.name}`, "error");
-}
-// 🔥 AQUÍ SE ACTIVA EL ASISTENTE DE VOZ 🔥
+        showCheck();
+        showText(`${clothingNames[type]} ✔ compatible con ${currentProgram.name}`, "success");
+    } else {
+        showError();
+        showText(`${clothingNames[type]} ✖ NO compatible con ${currentProgram.name}`, "error");
+    }
+
+    // 🔊 Activación del asistente de voz
     if (typeof voiceFiducialDetected === "function") {
         voiceFiducialDetected(type);
     }
-
 }
+
+
 
 const compatOverlay = document.getElementById("compatOverlay");
 const compatIcon = document.getElementById("compatIcon");
@@ -348,6 +376,53 @@ function resetFiducialView() {
     img.src = "";
     placeholder.classList.remove("hidden");
 }
+
+function showErrorOverlay() {
+    console.log("🔥 MOSTRANDO OVERLAY DE ERROR...");
+    const overlay = document.getElementById("errorOverlay");
+    overlay.classList.remove("hidden");
+    overlay.classList.add("show");
+    overlay.style.display = "flex";
+}
+
+function closeErrorOverlay() {
+    const overlay = document.getElementById("errorOverlay");
+    overlay.classList.add("hidden");
+    overlay.classList.remove("show");
+    overlay.style.display = "none";
+}
+
+function showMotorOverlay() {
+    console.log("🔥 MOSTRANDO OVERLAY DE FALLA DE MOTOR...");
+    const overlay = document.getElementById("motorOverlay");
+    overlay.classList.remove("hidden");
+    overlay.classList.add("show");
+    overlay.style.display = "flex";
+}
+
+function closeMotorOverlay() {
+    const overlay = document.getElementById("motorOverlay");
+    overlay.classList.add("hidden");
+    overlay.classList.remove("show");
+    overlay.style.display = "none";
+}
+
+function showMotorOkOverlay() {
+    console.log("💚 FIDUCIAL 17 → MOTOR EN BUEN ESTADO");
+    const overlay = document.getElementById("motorOkOverlay");
+    overlay.classList.remove("hidden");
+    overlay.classList.add("show");
+    overlay.style.display = "flex";
+}
+
+function closeMotorOkOverlay() {
+    const overlay = document.getElementById("motorOkOverlay");
+    overlay.classList.add("hidden");
+    overlay.classList.remove("show");
+    overlay.style.display = "none";
+}
+
+
 
 /* --- Botón Iniciar → Pausa / Detener --- */
 // 🔥 Ahora app.js solo llama a la pantalla de reposo
