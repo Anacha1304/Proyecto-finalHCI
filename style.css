@@ -489,3 +489,190 @@ html, body {
     opacity: 1;
     transform: scale(1);
 }
+
+/* 🔥 Overlay completo */
+.error-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+}
+
+.error-overlay.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Tarjeta */
+.error-card {
+    background: #fff;
+    width: 90%;
+    max-width: 600px;
+    padding: 30px 40px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Imagen */
+.error-img {
+    width: 60%;
+    max-width: 260px;
+    margin-bottom: 15px;
+}
+
+/* Texto */
+.error-title {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #1e2f45;
+    margin-bottom: 15px;
+}
+
+.error-desc {
+    font-size: 1.1rem;
+    color: #3f4e60;
+    margin-bottom: 25px;
+    line-height: 1.4em;
+}
+
+.error-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999 !important;   /* 🔥 AQUI ESTÁ LA CLAVE */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+}
+
+#errorOverlay {
+    z-index: 99999999 !important;
+    display: none;
+}
+
+#errorOverlay.show {
+    display: flex !important;
+}
+
+.error-card button {
+    display: block !important;
+    margin: 20px auto 0 auto !important;   /* 🔥 CENTRADO PERFECTO */
+    width: fit-content !important;
+}
+
+/* 🔥 Estilo especial para fallas graves */
+.error-card.danger {
+    border: 3px solid #ff3b3b;
+    animation: pulseAlert 1.3s infinite;
+}
+
+.danger-title {
+    color: #d00000;
+    font-size: 2rem;
+}
+
+.danger-desc {
+    color: #5a0000;
+    font-size: 1.15rem;
+}
+
+/* Botón más fuerte */
+.danger-btn {
+    background: #ff3b3b !important;
+    color: white !important;
+    box-shadow: 0px 4px 12px rgba(255, 0, 0, 0.25) !important;
+}
+
+/* 🔥 Animación de alerta */
+@keyframes pulseAlert {
+    0%   { transform: scale(1); box-shadow: 0 0 15px rgba(255,0,0,0.4); }
+    50%  { transform: scale(1.03); box-shadow: 0 0 25px rgba(255,0,0,0.7); }
+    100% { transform: scale(1); box-shadow: 0 0 15px rgba(255,0,0,0.4); }
+}
+
+/* 🌱 OVERLAY VERDE DE ÉXITO */
+.success-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 128, 0, 0.25);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999 !important;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+}
+
+.success-overlay.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Tarjeta verde */
+.success-card {
+    background: #ffffff;
+    width: 90%;
+    max-width: 600px;
+    padding: 32px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0, 128, 0, 0.25);
+    border: 3px solid #3cb371;
+    animation: pulseGreen 1.4s ease-in-out;
+}
+
+/* Imagen estilo sello */
+.success-img {
+    width: 150px;
+    margin-bottom: 15px;
+}
+
+/* Textos */
+.success-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #2e7d32;
+    margin-bottom: 10px;
+}
+
+.success-desc {
+    font-size: 1.1rem;
+    color: #245d27;
+    line-height: 1.4em;
+    margin-bottom: 20px;
+}
+
+/* Botón */
+.success-btn {
+    background: #3cb371 !important;
+    color: white !important;
+    width: fit-content !important;
+    margin: 20px auto 0 auto !important;
+    display: block !important;
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+    box-shadow: 0 3px 10px rgba(60, 179, 113, 0.3) !important;
+}
+
+/* Animación suave */
+@keyframes pulseGreen {
+    0% { transform: scale(0.97); }
+    100% { transform: scale(1); }
+}
+
+
+

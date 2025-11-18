@@ -219,30 +219,61 @@
   <script src="reposo.js"></script>
   <script type="module" src="voice.js"></script>
 
+  <!-- 🔥 OVERLAY DE FALLA EN LA LAVADORA (FIDUCIAL 15) -->
+<div id="errorOverlay" class="error-overlay hidden">
+    <div class="error-card">
+        <img src="icons/lavadoraMala.png" alt="Fallo en lavadora" class="error-img">
+
+        <h2 class="error-title">¡Hemos detectado un fallo en tu lavadora!</h2>
+
+        <p class="error-desc">
+            Escaneemos las piezas para detectar el fallo  
+            y notificar al técnico.
+        </p>
+
+        <button class="btn blue" onclick="closeErrorOverlay()">Entendido</button>
+    </div>
+</div>
+
+<!-- 🚨 OVERLAY DE EMERGENCIA (FALLA DE MOTOR – FIDUCIAL 16) -->
+<div id="motorOverlay" class="error-overlay hidden">
+    <div class="error-card danger">
+
+        <img src="icons/lavadoraMala.png" alt="Fallo crítico" class="error-img">
+
+        <h2 class="error-title danger-title">⚠ FALLO CRÍTICO DEL MOTOR</h2>
+
+        <p class="error-desc danger-desc">
+            La lavadora ha detenido su funcionamiento debido al <strong>sobrecalentamiento del motor</strong>.  
+            Existe riesgo de daño completo o arreglo segun se evalue.
+            <br><br>
+            Desconecta el equipo inmediatamente y contactare al servicio técnico.
+        </p>
+
+        <button class="btn blue danger-btn" onclick="closeMotorOverlay()">Entendido</button>
+    </div>
+</div>
+
+<!-- ✅ OVERLAY DE MOTOR VALIDADO (FIDUCIAL 17) -->
+<div id="motorOkOverlay" class="success-overlay hidden">
+    <div class="success-card">
+
+        <img src="icons/comprobado.png" alt="Motor validado" class="success-img">
+
+        <h2 class="success-title">Motor Verificado</h2>
+
+        <p class="success-desc">
+            La pieza del motor se encuentra en <strong>óptimas condiciones</strong>.
+            El sistema confirma que todo funciona correctamente.
+        </p>
+
+        <button class="btn blue success-btn" onclick="closeMotorOkOverlay()">Perfecto</button>
+    </div>
+</div>
+
 
 </body>
 </html>
-<script>
-function goToHome() {
-    localStorage.setItem("returnToHome", "1");
-    location.href = "index.html";
-}
-</script>
 
-<script>
-
-function selectProgram(programName) {
-    setLastProgram(programName);
-
-    const settings = getProgramSettings(programName);
-
-    if (settings) {
-        document.getElementById("programTemp").textContent = settings.temp;
-        document.getElementById("programSpin").textContent = settings.spin;
-    }
-
-    location.href = "personalizarPrograma.html";
-}
-</script>
 
 
